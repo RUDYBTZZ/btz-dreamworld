@@ -67,7 +67,7 @@
 }
 
 .controls-panel {
-  @apply fixed bottom-0 left-0 right-0 p-4 glass-panel m-4 rounded-lg;
+  @apply glass-panel m-4 rounded-lg;
 }
 
 .upload-zone {

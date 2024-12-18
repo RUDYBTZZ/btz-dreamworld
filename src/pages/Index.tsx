@@ -3,6 +3,7 @@ import AudioVisualizer from "@/components/AudioVisualizer";
 import AudioControls from "@/components/AudioControls";
 import BackgroundControls from "@/components/BackgroundControls";
 import VisualizerControls from "@/components/VisualizerControls";
+import MainNav from "@/components/MainNav";
 
 const Index = () => {
   const [audioContext, setAudioContext] = useState<AudioContext | null>(null);
@@ -46,24 +47,31 @@ const Index = () => {
 
   return (
     <div 
-      className="min-h-screen transition-all duration-300"
+      className="min-h-screen transition-all duration-300 flex flex-col"
       style={{ 
         background: background,
         backgroundSize: 'cover',
         backgroundPosition: 'center'
       }}
     >
-      <AudioVisualizer 
-        audioContext={audioContext} 
-        audioSource={audioSource} 
-        settings={visualizerSettings}
-      />
-      <AudioControls onAudioLoad={handleAudioLoad} />
-      <BackgroundControls onBackgroundChange={setBackground} />
-      <VisualizerControls 
-        settings={visualizerSettings}
-        onSettingsChange={handleVisualizerSettingsChange}
-      />
+      <MainNav />
+      
+      <main className="flex-1 relative mt-20 mb-32">
+        <AudioVisualizer 
+          audioContext={audioContext} 
+          audioSource={audioSource}
+          settings={visualizerSettings}
+        />
+        <VisualizerControls 
+          settings={visualizerSettings}
+          onSettingsChange={handleVisualizerSettingsChange}
+        />
+        <BackgroundControls onBackgroundChange={setBackground} />
+      </main>
+
+      <footer className="fixed bottom-0 left-0 right-0 z-50">
+        <AudioControls onAudioLoad={handleAudioLoad} />
+      </footer>
     </div>
   );
 };
