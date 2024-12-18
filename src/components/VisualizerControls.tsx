@@ -1,4 +1,4 @@
-import { Sliders, Waveform } from "lucide-react";
+import { Sliders, AudioWaveform } from "lucide-react";
 import { Slider } from "@/components/ui/slider";
 import {
   Select,
@@ -31,7 +31,7 @@ const VisualizerControls = ({ settings, onSettingsChange }: VisualizerControlsPr
   return (
     <div className="fixed top-4 left-4 z-50 glass-panel p-4 space-y-4 w-64">
       <div className="flex items-center gap-2 mb-4">
-        <Waveform className="w-5 h-5" />
+        <AudioWaveform className="w-5 h-5" />
         <h3 className="font-semibold">Visualizer Controls</h3>
       </div>
 

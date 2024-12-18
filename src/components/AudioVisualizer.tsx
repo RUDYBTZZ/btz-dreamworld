@@ -2,10 +2,20 @@ import React, { useEffect, useRef } from 'react';
 import * as THREE from 'three';
 import { useToast } from "@/hooks/use-toast";
 
-const AudioVisualizer = ({ audioContext, audioSource }: { 
+interface VisualizerSettings {
+  intensity: number;
+  speed: number;
+  glitchAmount: number;
+  barType: string;
+}
+
+interface AudioVisualizerProps {
   audioContext: AudioContext | null;
   audioSource: MediaElementAudioSourceNode | null;
-}) => {
+  settings: VisualizerSettings;
+}
+
+const AudioVisualizer = ({ audioContext, audioSource, settings }: AudioVisualizerProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const { toast } = useToast();
   
@@ -55,19 +65,29 @@ const AudioVisualizer = ({ audioContext, audioSource }: {
 
       analyser.getByteFrequencyData(dataArray);
       
-      // Calculate average frequency
-      const average = dataArray.reduce((a, b) => a + b) / bufferLength;
+      // Calculate average frequency and apply intensity setting
+      const average = (dataArray.reduce((a, b) => a + b) / bufferLength) * settings.intensity;
       
-      // Respond to bass frequencies
-      const bassValue = dataArray[0] / 255;
+      // Apply speed setting to rotation
+      const rotationSpeed = 0.01 * settings.speed;
+      
+      // Respond to bass frequencies with intensity setting
+      const bassValue = (dataArray[0] / 255) * settings.intensity;
       cube.scale.set(
         1 + bassValue * 0.5,
         1 + bassValue * 0.5,
         1 + bassValue * 0.5
       );
       
-      cube.rotation.x += 0.01;
-      cube.rotation.y += 0.01;
+      cube.rotation.x += rotationSpeed;
+      cube.rotation.y += rotationSpeed;
+
+      // Apply glitch effect
+      if (settings.glitchAmount > 0) {
+        const glitchScale = Math.random() * settings.glitchAmount * 0.1;
+        cube.position.x = (Math.random() - 0.5) * glitchScale;
+        cube.position.y = (Math.random() - 0.5) * glitchScale;
+      }
 
       renderer.render(scene, camera);
     };
@@ -96,7 +116,7 @@ const AudioVisualizer = ({ audioContext, audioSource }: {
       material.dispose();
       renderer.dispose();
     };
-  }, [audioContext, audioSource]);
+  }, [audioContext, audioSource, settings]);
 
   return <div ref={containerRef} className="visualizer-container" />;
 };
