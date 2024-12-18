@@ -77,3 +77,16 @@
 .upload-zone.dragging {
   @apply border-primary bg-primary/10;
 }
+
+/* Enhanced glass effect */
+.glass-panel {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+}
+
+/* Smooth transitions */
+.transition-all {
+  transition: all 0.3s ease-in-out;
+}
