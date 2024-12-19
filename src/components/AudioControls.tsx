@@ -13,6 +13,7 @@ const AudioControls = ({ onAudioLoad }: AudioControlsProps) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [isMuted, setIsMuted] = useState(false);
   const [volume, setVolume] = useState(100);
+  const [hasAudio, setHasAudio] = useState(false);
   const audioRef = useRef<HTMLAudioElement>(null);
   const { toast } = useToast();
 
@@ -31,6 +32,7 @@ const AudioControls = ({ onAudioLoad }: AudioControlsProps) => {
       audioRef.current.src = url;
       audioRef.current.load();
       onAudioLoad(audioRef.current);
+      setHasAudio(true);
       toast({
         title: "Audio loaded",
         description: "Your audio file has been loaded successfully.",
@@ -103,28 +105,30 @@ const AudioControls = ({ onAudioLoad }: AudioControlsProps) => {
   return (
     <div className="controls-panel p-4">
       <div className="flex flex-col gap-4">
-        <div
-          className={`upload-zone flex items-center justify-center gap-2 ${isDragging ? 'dragging' : ''}`}
-          onDrop={handleDrop}
-          onDragOver={handleDragOver}
-          onDragLeave={handleDragLeave}
-          onClick={handleUploadClick}
-        >
-          <Upload className="w-6 h-6 text-primary" />
-          <div className="flex flex-col">
-            <p className="text-sm font-medium">Drop your audio file here</p>
-            <p className="text-xs text-muted-foreground">or click to browse</p>
+        {!hasAudio && (
+          <div
+            className={`upload-zone flex items-center justify-center gap-2 ${isDragging ? 'dragging' : ''}`}
+            onDrop={handleDrop}
+            onDragOver={handleDragOver}
+            onDragLeave={handleDragLeave}
+            onClick={handleUploadClick}
+          >
+            <Upload className="w-6 h-6 text-primary" />
+            <div className="flex flex-col">
+              <p className="text-sm font-medium">Drop your audio file here</p>
+              <p className="text-xs text-muted-foreground">or click to browse</p>
+            </div>
+            <input
+              type="file"
+              className="hidden"
+              accept="audio/*"
+              onChange={(e) => {
+                const file = e.target.files?.[0];
+                if (file) handleFileUpload(file);
+              }}
+            />
           </div>
-          <input
-            type="file"
-            className="hidden"
-            accept="audio/*"
-            onChange={(e) => {
-              const file = e.target.files?.[0];
-              if (file) handleFileUpload(file);
-            }}
-          />
-        </div>
+        )}
 
         <div className="flex items-center gap-4 bg-background/50 p-3 rounded-lg">
           <Button
