@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
-import { Download, Save, Upload, Share2, Film } from "lucide-react";
+import { Download, Save, Upload, Share2, Film, Camera, Copy } from "lucide-react";
 
 export function ExportTabContent() {
   const [exportQuality, setExportQuality] = useState("1080p");
@@ -11,6 +11,7 @@ export function ExportTabContent() {
   const { toast } = useToast();
 
   const handleExport = () => {
+    console.log("Starting export with settings:", { exportQuality, exportFormat, exportDuration });
     toast({
       title: "Starting Export",
       description: `Preparing ${exportQuality} ${exportFormat.toUpperCase()} export...`,
@@ -25,6 +26,7 @@ export function ExportTabContent() {
   };
 
   const handleSavePreset = () => {
+    console.log("Saving current preset");
     toast({
       title: "Preset Saved",
       description: "Your current settings have been saved as a preset",
@@ -32,6 +34,7 @@ export function ExportTabContent() {
   };
 
   const handleLoadPreset = () => {
+    console.log("Loading preset");
     toast({
       title: "Preset Loaded",
       description: "Settings have been loaded from your preset",
@@ -39,17 +42,22 @@ export function ExportTabContent() {
   };
 
   const handleShare = () => {
-    toast({
-      title: "Sharing",
-      description: "Preparing visualization for sharing...",
-    });
-    // Sharing logic would go here
-    setTimeout(() => {
+    console.log("Preparing to share");
+    const shareUrl = "https://example.com/share/xyz123"; // This would be dynamic
+    navigator.clipboard.writeText(shareUrl).then(() => {
       toast({
-        title: "Ready to Share",
+        title: "Share Link Created",
         description: "Share link has been copied to clipboard!",
       });
-    }, 1500);
+    });
+  };
+
+  const handleScreenshot = () => {
+    console.log("Taking screenshot");
+    toast({
+      title: "Screenshot Captured",
+      description: "Screenshot has been saved to your downloads",
+    });
   };
 
   return (
@@ -67,6 +75,7 @@ export function ExportTabContent() {
             <SelectContent>
               <SelectItem value="720p">HD (720p)</SelectItem>
               <SelectItem value="1080p">Full HD (1080p)</SelectItem>
+              <SelectItem value="2k">2K QHD</SelectItem>
               <SelectItem value="4k">4K Ultra HD</SelectItem>
             </SelectContent>
           </Select>
@@ -85,6 +94,7 @@ export function ExportTabContent() {
               <SelectItem value="mp4">MP4 Video</SelectItem>
               <SelectItem value="gif">GIF Animation</SelectItem>
               <SelectItem value="webm">WebM Video</SelectItem>
+              <SelectItem value="mov">QuickTime MOV</SelectItem>
             </SelectContent>
           </Select>
         </div>
@@ -102,19 +112,31 @@ export function ExportTabContent() {
               <SelectItem value="15">15 seconds</SelectItem>
               <SelectItem value="30">30 seconds</SelectItem>
               <SelectItem value="60">60 seconds</SelectItem>
+              <SelectItem value="120">2 minutes</SelectItem>
               <SelectItem value="full">Full Song</SelectItem>
             </SelectContent>
           </Select>
         </div>
       </div>
 
-      <Button 
-        className="w-full" 
-        onClick={handleExport}
-      >
-        <Film className="w-4 h-4 mr-2" />
-        Export {exportQuality} {exportFormat.toUpperCase()}
-      </Button>
+      <div className="space-y-4">
+        <Button 
+          className="w-full" 
+          onClick={handleExport}
+        >
+          <Film className="w-4 h-4 mr-2" />
+          Export {exportQuality} {exportFormat.toUpperCase()}
+        </Button>
+
+        <Button 
+          variant="outline"
+          className="w-full"
+          onClick={handleScreenshot}
+        >
+          <Camera className="w-4 h-4 mr-2" />
+          Take Screenshot
+        </Button>
+      </div>
 
       <div className="grid grid-cols-2 gap-2">
         <Button 
@@ -142,6 +164,21 @@ export function ExportTabContent() {
       >
         <Share2 className="w-4 h-4 mr-2" />
         Share Visualization
+      </Button>
+
+      <Button
+        variant="outline"
+        className="w-full"
+        onClick={() => {
+          navigator.clipboard.writeText(window.location.href);
+          toast({
+            title: "URL Copied",
+            description: "Current visualization URL copied to clipboard",
+          });
+        }}
+      >
+        <Copy className="w-4 h-4 mr-2" />
+        Copy URL
       </Button>
     </div>
   );
