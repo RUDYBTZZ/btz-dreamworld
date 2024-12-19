@@ -1,8 +1,8 @@
 import * as THREE from 'three';
-import React, { useMemo } from 'react';
-import { VisualizerProps } from './types';
+import { useMemo } from 'react';
+import type { VisualizerProps, VisualizerComponent } from './types';
 
-const CircularVisualizer = React.memo(({ analyser, settings, dataArray }: VisualizerProps) => {
+const CircularVisualizer = ({ analyser, settings, dataArray }: VisualizerProps): VisualizerComponent => {
   console.log("Initializing Circular visualizer with settings:", settings);
 
   const { geometry, material, visualizer } = useMemo(() => {
@@ -24,8 +24,6 @@ const CircularVisualizer = React.memo(({ analyser, settings, dataArray }: Visual
   };
 
   return { mesh: visualizer, update };
-});
-
-CircularVisualizer.displayName = 'CircularVisualizer';
+};
 
 export default CircularVisualizer;

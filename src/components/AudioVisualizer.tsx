@@ -28,7 +28,6 @@ const AudioVisualizer = React.memo(({ audioContext, audioSource, settings }: Aud
   const frameIdRef = useRef<number>();
   const { toast } = useToast();
 
-  // Memoize visualizer creation function
   const createVisualizer = useCallback((
     analyser: AnalyserNode,
     settings: VisualizerSettings,
@@ -54,7 +53,6 @@ const AudioVisualizer = React.memo(({ audioContext, audioSource, settings }: Aud
     }
   }, []);
 
-  // Memoize animation function
   const createAnimationLoop = useCallback((
     visualizer: VisualizerComponent,
     renderer: THREE.WebGLRenderer,
@@ -96,7 +94,6 @@ const AudioVisualizer = React.memo(({ audioContext, audioSource, settings }: Aud
     const handleResize = createResizeHandler(camera, renderer);
     window.addEventListener('resize', handleResize);
 
-    // Use memoized animation loop
     const animate = createAnimationLoop(visualizer, renderer, scene, camera);
     animate();
 
@@ -108,12 +105,10 @@ const AudioVisualizer = React.memo(({ audioContext, audioSource, settings }: Aud
       }
       cleanupVisualizer(containerRef, rendererRef.current, sceneRef.current, visualizer.mesh);
       
-      // Additional cleanup
       if (analyser) {
         analyser.disconnect();
       }
       
-      // Dispose of Three.js resources
       if (visualizer.mesh instanceof THREE.Mesh) {
         if (visualizer.mesh.geometry) {
           visualizer.mesh.geometry.dispose();

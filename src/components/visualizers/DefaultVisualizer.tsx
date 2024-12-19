@@ -1,8 +1,8 @@
 import * as THREE from 'three';
-import React, { useMemo } from 'react';
-import { VisualizerProps } from './types';
+import { useMemo } from 'react';
+import type { VisualizerProps, VisualizerComponent } from './types';
 
-const DefaultVisualizer = React.memo(({ analyser, settings, dataArray }: VisualizerProps) => {
+const DefaultVisualizer = ({ analyser, settings, dataArray }: VisualizerProps): VisualizerComponent => {
   console.log("Initializing Default visualizer with settings:", settings);
 
   const { geometry, material, visualizer } = useMemo(() => {
@@ -29,8 +29,6 @@ const DefaultVisualizer = React.memo(({ analyser, settings, dataArray }: Visuali
   };
 
   return { mesh: visualizer, update };
-});
-
-DefaultVisualizer.displayName = 'DefaultVisualizer';
+};
 
 export default DefaultVisualizer;
