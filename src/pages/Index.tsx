@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import AudioVisualizer from "@/components/AudioVisualizer";
+import AudioControls from "@/components/AudioControls";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/AppSidebar";
-import { VisualizerSettingsModal } from "@/components/VisualizerSettingsModal";
 import type { VisualizerSettings } from "@/types/visualizer";
 
 const Index = () => {
@@ -21,8 +21,6 @@ const Index = () => {
     zoomIntensity: 0.3
   });
 
-  console.log("Rendering Index with settings:", visualizerSettings);
-
   useEffect(() => {
     const ctx = new (window.AudioContext || (window as any).webkitAudioContext)();
     setAudioContext(ctx);
@@ -34,6 +32,19 @@ const Index = () => {
     };
   }, []);
 
+  const handleAudioLoad = (audioElement: HTMLAudioElement) => {
+    if (!audioContext) return;
+    
+    if (audioSource) {
+      audioSource.disconnect();
+    }
+    
+    const source = audioContext.createMediaElementSource(audioElement);
+    source.connect(audioContext.destination);
+    setAudioSource(source);
+    console.log("New audio source connected");
+  };
+
   return (
     <SidebarProvider>
       <div 
@@ -44,13 +55,6 @@ const Index = () => {
           backgroundPosition: 'center'
         }}
       >
-        <VisualizerSettingsModal 
-          settings={visualizerSettings}
-          onSettingsChange={setVisualizerSettings}
-          background={background}
-          onBackgroundChange={setBackground}
-        />
-        
         <AppSidebar 
           settings={visualizerSettings}
           onSettingsChange={setVisualizerSettings}
@@ -65,6 +69,10 @@ const Index = () => {
               audioSource={audioSource}
               settings={visualizerSettings}
             />
+          </div>
+          
+          <div className="fixed bottom-0 left-0 right-0 z-50 max-w-2xl mx-auto mb-8">
+            <AudioControls onAudioLoad={handleAudioLoad} />
           </div>
         </main>
       </div>
