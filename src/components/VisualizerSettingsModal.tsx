@@ -40,9 +40,9 @@ export function VisualizerSettingsModal({
         <Button
           variant="outline"
           size="icon"
-          className="fixed top-4 right-4 z-50 rounded-full w-12 h-12 bg-background/80 backdrop-blur-sm border-2 hover:bg-primary/20 hover:border-primary transition-all duration-300"
+          className="fixed top-6 right-6 z-[100] rounded-full w-12 h-12 bg-background/80 backdrop-blur-sm border-2 hover:bg-primary/20 hover:border-primary transition-all duration-300 shadow-lg"
         >
-          <Settings2 className="h-6 w-6 text-foreground/80 hover:text-primary animate-[spin_3s_linear_infinite]" />
+          <Settings2 className="h-6 w-6 text-foreground hover:text-primary animate-[spin_3s_linear_infinite]" />
         </Button>
       </DialogTrigger>
       <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
