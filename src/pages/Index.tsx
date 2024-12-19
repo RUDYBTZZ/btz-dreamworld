@@ -54,11 +54,6 @@ const Index = () => {
     console.log("New audio source connected");
   };
 
-  const handleSettingsChange = (newSettings: VisualizerSettings) => {
-    setVisualizerSettings(newSettings);
-    console.log("Visualizer settings updated:", newSettings);
-  };
-
   return (
     <div 
       className="min-h-screen flex flex-col items-center justify-center relative transition-all duration-300"
@@ -70,7 +65,7 @@ const Index = () => {
     >
       <VisualizerSettingsModal 
         settings={visualizerSettings}
-        onSettingsChange={handleSettingsChange}
+        onSettingsChange={setVisualizerSettings}
         background={background}
         onBackgroundChange={setBackground}
       />
