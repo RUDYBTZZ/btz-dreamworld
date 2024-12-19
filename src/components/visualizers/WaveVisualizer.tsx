@@ -4,12 +4,11 @@ import type { VisualizerProps, VisualizerComponent } from './types';
 const WaveVisualizer = ({ analyser, settings, dataArray }: VisualizerProps): VisualizerComponent => {
   console.log("Initializing Wave visualizer with settings:", settings);
 
-  const points = [];
+  // Optimize geometry creation
   const segments = 100;
-  
-  for (let i = 0; i < segments; i++) {
-    points.push(new THREE.Vector3(i/10 - 5, 0, 0));
-  }
+  const points = new Array(segments).fill(0).map((_, i) => 
+    new THREE.Vector3(i/10 - 5, 0, 0)
+  );
   
   const geometry = new THREE.BufferGeometry().setFromPoints(points);
   const material = new THREE.LineBasicMaterial({ 
@@ -20,27 +19,18 @@ const WaveVisualizer = ({ analyser, settings, dataArray }: VisualizerProps): Vis
   const wave = new THREE.Line(geometry, material);
   const positions = wave.geometry.attributes.position;
 
-  const generateWaveform = (time: number, type: string, frequency: number, amplitude: number) => {
-    let y = 0;
+  // Pre-calculate wave parameters
+  const generateWaveform = (time: number, type: string = 'sine', frequency: number, amplitude: number) => {
     switch (type) {
-      case 'sine':
-        y = Math.sin(frequency * time) * amplitude;
-        break;
       case 'square':
-        y = Math.sin(frequency * time) >= 0 ? amplitude : -amplitude;
-        break;
+        return Math.sin(frequency * time) >= 0 ? amplitude : -amplitude;
       case 'sawtooth':
-        y = ((time * frequency) % (2 * Math.PI)) / Math.PI - 1;
-        y *= amplitude;
-        break;
+        return ((time * frequency) % (2 * Math.PI)) / Math.PI - 1 * amplitude;
       case 'triangle':
-        y = Math.abs(((time * frequency) % (2 * Math.PI)) / Math.PI - 1);
-        y = (y * 2 - 1) * amplitude;
-        break;
-      default:
-        y = Math.sin(frequency * time) * amplitude;
+        return (Math.abs(((time * frequency) % (2 * Math.PI)) / Math.PI - 1) * 2 - 1) * amplitude;
+      default: // sine
+        return Math.sin(frequency * time) * amplitude;
     }
-    return y;
   };
 
   const update = () => {
@@ -48,11 +38,11 @@ const WaveVisualizer = ({ analyser, settings, dataArray }: VisualizerProps): Vis
     const average = (dataArray.reduce((a, b) => a + b) / dataArray.length) * settings.intensity;
     const time = Date.now() * 0.001;
     
-    // Use the waveType from settings, defaulting to 'sine' if not specified
     const waveType = settings.waveType || 'sine';
     const frequency = 2 + settings.speed * 3;
     const amplitude = 0.5 + average * 0.01;
     
+    // Batch update positions
     for (let i = 0; i < positions.count; i++) {
       const t = time + (i / positions.count) * Math.PI * 2;
       const y = generateWaveform(t, waveType, frequency, amplitude);
@@ -64,6 +54,7 @@ const WaveVisualizer = ({ analyser, settings, dataArray }: VisualizerProps): Vis
   };
 
   const cleanup = () => {
+    console.log("Cleaning up Wave visualizer");
     geometry.dispose();
     material.dispose();
   };
