@@ -1,3 +1,5 @@
+import * as THREE from 'three';
+
 export interface VisualizerSettings {
   intensity: number;
   speed: number;
