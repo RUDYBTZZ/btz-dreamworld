@@ -30,4 +30,5 @@ export interface VisualizerProps {
 export interface VisualizerComponent {
   mesh: THREE.Object3D;
   update: () => void;
+  cleanup?: () => void;
 }
