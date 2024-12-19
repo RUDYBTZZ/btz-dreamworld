@@ -1,11 +1,10 @@
 import * as THREE from 'three';
 import { useMemo } from 'react';
-import { VisualizerProps } from './types';
+import type { VisualizerProps, VisualizerComponent } from './types';
 
-const WaveVisualizer = ({ analyser, settings, dataArray }: VisualizerProps) => {
+const WaveVisualizer = ({ analyser, settings, dataArray }: VisualizerProps): VisualizerComponent => {
   console.log("Initializing Wave visualizer with settings:", settings);
 
-  // Memoize geometry and material creation
   const { visualizer, positions } = useMemo(() => {
     const points = [];
     for (let i = 0; i < 100; i++) {

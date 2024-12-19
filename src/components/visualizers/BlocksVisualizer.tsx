@@ -1,24 +1,25 @@
 import * as THREE from 'three';
 import { useMemo } from 'react';
-import { VisualizerProps } from './types';
+import type { VisualizerProps, VisualizerComponent } from './types';
 
-const BlocksVisualizer = ({ analyser, settings, dataArray }: VisualizerProps) => {
+const BlocksVisualizer = ({ analyser, settings, dataArray }: VisualizerProps): VisualizerComponent => {
   console.log("Initializing Blocks visualizer with settings:", settings);
 
-  // Memoize blocks creation
   const blocks = useMemo(() => {
     const group = new THREE.Group();
+    const blockGeometry = new THREE.BoxGeometry(0.5, 0.5, 0.5);
+    const blockMaterial = new THREE.MeshPhongMaterial({ 
+      color: 0x9b87f5,
+      specular: 0x9b87f5,
+      shininess: 100,
+    });
+
     for (let i = 0; i < 8; i++) {
-      const blockGeometry = new THREE.BoxGeometry(0.5, 0.5, 0.5);
-      const blockMaterial = new THREE.MeshPhongMaterial({ 
-        color: 0x9b87f5,
-        specular: 0x9b87f5,
-        shininess: 100,
-      });
       const block = new THREE.Mesh(blockGeometry, blockMaterial);
       block.position.x = i - 4;
       group.add(block);
     }
+
     return group;
   }, []);
 

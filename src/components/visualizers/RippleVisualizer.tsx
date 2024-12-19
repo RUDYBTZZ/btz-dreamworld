@@ -1,24 +1,24 @@
 import * as THREE from 'three';
 import { useMemo } from 'react';
-import { VisualizerProps } from './types';
+import type { VisualizerProps, VisualizerComponent } from './types';
 
-const RippleVisualizer = ({ analyser, settings, dataArray }: VisualizerProps) => {
+const RippleVisualizer = ({ analyser, settings, dataArray }: VisualizerProps): VisualizerComponent => {
   console.log("Initializing Ripple visualizer with settings:", settings);
 
-  // Memoize geometry creation
-  const geometry = useMemo(() => new THREE.PlaneGeometry(4, 4, 64, 64), []);
-  
-  // Memoize material creation
-  const material = useMemo(() => new THREE.MeshPhongMaterial({
-    color: 0x9b87f5,
-    wireframe: true,
-    transparent: true,
-    opacity: 0.8,
-    side: THREE.DoubleSide
-  }), []);
-
-  const rippleMesh = new THREE.Mesh(geometry, material);
-  rippleMesh.rotation.x = -Math.PI / 2;
+  const { geometry, material, rippleMesh } = useMemo(() => {
+    const geometry = new THREE.PlaneGeometry(4, 4, 64, 64);
+    const material = new THREE.MeshPhongMaterial({
+      color: 0x9b87f5,
+      wireframe: true,
+      transparent: true,
+      opacity: 0.8,
+      side: THREE.DoubleSide
+    });
+    const rippleMesh = new THREE.Mesh(geometry, material);
+    rippleMesh.rotation.x = -Math.PI / 2;
+    
+    return { geometry, material, rippleMesh };
+  }, []);
 
   let phase = 0;
 
