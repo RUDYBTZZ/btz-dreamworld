@@ -23,10 +23,10 @@ const Index = () => {
     // Grid and pattern properties
     patternDensity: '16x16',
     gridSize: 16,
+    bassResponseIntensity: 0.5,
     
     // Response properties
     bassResponse: 0.5,
-    bassResponseIntensity: 0.5,
     snareResponse: 0.5,
     
     // Visual properties

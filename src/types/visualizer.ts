@@ -15,10 +15,10 @@ export interface VisualizerSettings {
   // Grid and pattern properties
   patternDensity: '8x8' | '16x16' | '24x24' | '32x32';
   gridSize: number;
+  bassResponseIntensity: number;
   
   // Response properties
   bassResponse: number;
-  bassResponseIntensity: number;
   snareResponse: number;
   
   // Visual properties
