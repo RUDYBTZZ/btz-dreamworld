@@ -1,24 +1,18 @@
 import * as THREE from 'three';
-import { useMemo } from 'react';
 import type { VisualizerProps, VisualizerComponent } from './types';
 
 const WaveVisualizer = ({ analyser, settings, dataArray }: VisualizerProps): VisualizerComponent => {
   console.log("Initializing Wave visualizer with settings:", settings);
 
-  const { visualizer, positions } = useMemo(() => {
-    const points = [];
-    for (let i = 0; i < 100; i++) {
-      points.push(new THREE.Vector3(i/10 - 5, 0, 0));
-    }
-    const geometry = new THREE.BufferGeometry().setFromPoints(points);
-    const material = new THREE.LineBasicMaterial({ color: 0x9b87f5 });
-    const wave = new THREE.Line(geometry, material);
-    
-    return { 
-      visualizer: wave, 
-      positions: wave.geometry.attributes.position 
-    };
-  }, []);
+  const points = [];
+  for (let i = 0; i < 100; i++) {
+    points.push(new THREE.Vector3(i/10 - 5, 0, 0));
+  }
+  const geometry = new THREE.BufferGeometry().setFromPoints(points);
+  const material = new THREE.LineBasicMaterial({ color: 0x9b87f5 });
+  const wave = new THREE.Line(geometry, material);
+  
+  const positions = wave.geometry.attributes.position;
 
   const update = () => {
     analyser.getByteFrequencyData(dataArray);
@@ -31,7 +25,7 @@ const WaveVisualizer = ({ analyser, settings, dataArray }: VisualizerProps): Vis
     positions.needsUpdate = true;
   };
 
-  return { mesh: visualizer, update };
+  return { mesh: wave, update };
 };
 
 export default WaveVisualizer;
