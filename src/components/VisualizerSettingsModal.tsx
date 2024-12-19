@@ -1,4 +1,4 @@
-import { Settings2 } from "lucide-react";
+import { Settings2, Sliders, Palette, Image, Sparkles, Share2 } from "lucide-react";
 import {
   Dialog,
   DialogContent,
@@ -47,16 +47,34 @@ export function VisualizerSettingsModal({
       </DialogTrigger>
       <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle>Visualizer Settings</DialogTitle>
+          <DialogTitle className="flex items-center gap-2">
+            <Settings2 className="h-5 w-5" />
+            Visualizer Settings
+          </DialogTitle>
         </DialogHeader>
 
         <Tabs defaultValue="visualization" className="w-full">
           <TabsList className="grid w-full grid-cols-5">
-            <TabsTrigger value="visualization">Visualization</TabsTrigger>
-            <TabsTrigger value="colors">Colors</TabsTrigger>
-            <TabsTrigger value="background">Background</TabsTrigger>
-            <TabsTrigger value="effects">Effects</TabsTrigger>
-            <TabsTrigger value="export">Export</TabsTrigger>
+            <TabsTrigger value="visualization" className="flex items-center gap-2">
+              <Sliders className="h-4 w-4" />
+              Visualization
+            </TabsTrigger>
+            <TabsTrigger value="colors" className="flex items-center gap-2">
+              <Palette className="h-4 w-4" />
+              Colors
+            </TabsTrigger>
+            <TabsTrigger value="background" className="flex items-center gap-2">
+              <Image className="h-4 w-4" />
+              Background
+            </TabsTrigger>
+            <TabsTrigger value="effects" className="flex items-center gap-2">
+              <Sparkles className="h-4 w-4" />
+              Effects
+            </TabsTrigger>
+            <TabsTrigger value="export" className="flex items-center gap-2">
+              <Share2 className="h-4 w-4" />
+              Export
+            </TabsTrigger>
           </TabsList>
 
           <TabsContent value="visualization" className="space-y-4">
