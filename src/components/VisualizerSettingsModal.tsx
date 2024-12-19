@@ -248,3 +248,4 @@ export function VisualizerSettingsModal({
       </DialogContent>
     </Dialog>
   );
+}
