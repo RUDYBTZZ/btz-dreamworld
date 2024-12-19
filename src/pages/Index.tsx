@@ -9,24 +9,28 @@ const Index = () => {
   const [audioSource, setAudioSource] = useState<MediaElementAudioSourceNode | null>(null);
   const [background, setBackground] = useState('#9f7aea');
   const [visualizerSettings, setVisualizerSettings] = useState<VisualizerSettings>({
+    // Base properties
     intensity: 0.5,
     speed: 0.5,
     glitchAmount: 0,
     barType: 'grid',
     sizeX: 500,
     sizeY: 500,
-    colorScheme: 'default',
+    
+    // Wave properties
     waveType: 'sine',
-    zoomSpeed: 0.5,
-    zoomIntensity: 0.3,
+    
+    // Grid and pattern properties
+    patternDensity: '16x16',
+    gridSize: 16,
+    
+    // Response properties
     bassResponse: 0.5,
+    bassResponseIntensity: 0.5,
     snareResponse: 0.5,
-    particleCount: 100,
-    particleSize: 2,
-    particleSpeed: 0.5,
-    textSize: 32,
-    textAlignment: 'center',
-    shapeRotation: true,
+    
+    // Visual properties
+    colorScheme: 'default',
     shapeColor: '#ffffff',
     backgroundColor: '#000000',
     backgroundOpacity: 1,
@@ -34,25 +38,41 @@ const Index = () => {
     backgroundPosY: 0,
     backgroundScaleX: 1,
     backgroundScaleY: 1,
+    
+    // Animation properties
+    zoomSpeed: 0.5,
+    zoomIntensity: 0.3,
+    particleCount: 100,
+    particleSize: 2,
+    particleSpeed: 0.5,
+    particleLifetime: 300,
+    motionBlur: 2,
+    trailPersistence: 5,
+    
+    // Text properties
+    textSize: 32,
+    textAlignment: 'center',
+    textContent: '3D TEXT',
+    textColor: '#9f7aea',
+    
+    // Shape properties
+    shape3DType: 'grid',
+    shapeRotation: true,
+    
+    // Effect timings
+    snareAttackTime: 5,
+    snareDecayTime: 200,
+    wavePropagationSpeed: 100,
+    
+    // Border properties
     imageBorderRadius: 30,
+    
+    // Audio processing
     enableLowpass: true,
     enableHighpass: true,
     lowpassFreq: 20,
     highpassFreq: 410,
-    smoothingTimeConstant: 0.1,
-    shape3DType: 'grid',
-    textContent: '3D TEXT',
-    textColor: '#9f7aea',
-    bassResponseIntensity: 0.5,
-    animationSpeed: 0.5,
-    gridSize: 16,
-    motionBlur: 2,
-    trailPersistence: 5,
-    patternDensity: '16x16',
-    snareAttackTime: 5,
-    snareDecayTime: 200,
-    particleLifetime: 300,
-    wavePropagationSpeed: 100
+    smoothingTimeConstant: 0.1
   });
 
   useEffect(() => {

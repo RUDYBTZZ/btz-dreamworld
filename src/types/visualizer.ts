@@ -1,54 +1,71 @@
 import * as THREE from 'three';
-import { z } from 'zod';
 
-export const VisualizerSettingsSchema = z.object({
-  intensity: z.number().min(0).max(1),
-  speed: z.number().min(0).max(1),
-  glitchAmount: z.number().min(0).max(1),
-  barType: z.enum(['default', 'circular', 'wave', 'blocks', 'particles', 'particleBurst', 'ripple', 'pattern', 'grid']),
-  sizeX: z.number().min(100).max(2000),
-  sizeY: z.number().min(100).max(2000),
-  colorScheme: z.enum(['default', 'neon', 'sunset', 'rainbow', 'monochrome', 'duotone', 'tritone']),
-  waveType: z.enum(['sine', 'square', 'sawtooth', 'triangle']).optional(),
-  zoomSpeed: z.number().min(0).max(1),
-  zoomIntensity: z.number().min(0).max(1),
-  bassResponse: z.number().min(0).max(1),
-  snareResponse: z.number().min(0).max(1),
-  particleCount: z.number().min(0).max(1000),
-  particleSize: z.number().min(0).max(10),
-  particleSpeed: z.number().min(0).max(1),
-  textSize: z.number().min(8).max(100),
-  textAlignment: z.enum(['left', 'center', 'right']),
-  shapeRotation: z.boolean(),
-  shapeColor: z.string(),
-  backgroundColor: z.string(),
-  backgroundOpacity: z.number().min(0).max(1),
-  backgroundPosX: z.number(),
-  backgroundPosY: z.number(),
-  backgroundScaleX: z.number().positive(),
-  backgroundScaleY: z.number().positive(),
-  imageBorderRadius: z.number().min(0),
-  enableLowpass: z.boolean(),
-  enableHighpass: z.boolean(),
-  lowpassFreq: z.number().positive(),
-  highpassFreq: z.number().positive(),
-  smoothingTimeConstant: z.number().min(0).max(1),
-  shape3DType: z.enum(['3dtext', 'cube', 'sphere', 'ring', 'grid']),
-  textContent: z.string(),
-  textColor: z.string(),
-  bassResponseIntensity: z.number().min(0).max(1),
-  animationSpeed: z.number().min(0).max(1),
-  gridSize: z.number().min(8).max(32),
-  motionBlur: z.number().min(0).max(5),
-  trailPersistence: z.number().min(5).max(8),
-  patternDensity: z.enum(['8x8', '16x16', '24x24', '32x32']),
-  snareAttackTime: z.number().min(5).max(10),
-  snareDecayTime: z.number().min(200).max(500),
-  particleLifetime: z.number().min(300).max(800),
-  wavePropagationSpeed: z.number().min(100).max(500)
-});
-
-export type VisualizerSettings = z.infer<typeof VisualizerSettingsSchema>;
+export interface VisualizerSettings {
+  // Required base properties
+  intensity: number;
+  speed: number;
+  glitchAmount: number;
+  barType: string;
+  sizeX: number;
+  sizeY: number;
+  
+  // Wave properties
+  waveType: 'sine' | 'square' | 'sawtooth' | 'triangle';
+  
+  // Grid and pattern properties
+  patternDensity: '8x8' | '16x16' | '24x24' | '32x32';
+  gridSize: number;
+  
+  // Response properties
+  bassResponse: number;
+  bassResponseIntensity: number;
+  snareResponse: number;
+  
+  // Visual properties
+  colorScheme: string;
+  shapeColor: string;
+  backgroundColor: string;
+  backgroundOpacity: number;
+  backgroundPosX: number;
+  backgroundPosY: number;
+  backgroundScaleX: number;
+  backgroundScaleY: number;
+  
+  // Animation properties
+  zoomSpeed: number;
+  zoomIntensity: number;
+  particleCount: number;
+  particleSize: number;
+  particleSpeed: number;
+  particleLifetime: number;
+  motionBlur: number;
+  trailPersistence: number;
+  
+  // Text properties
+  textSize: number;
+  textAlignment: 'left' | 'center' | 'right';
+  textContent: string;
+  textColor: string;
+  
+  // Shape properties
+  shape3DType: 'cube' | 'sphere' | 'ring' | 'grid' | '3dtext';
+  shapeRotation: boolean;
+  
+  // Effect timings
+  snareAttackTime: number;
+  snareDecayTime: number;
+  wavePropagationSpeed: number;
+  
+  // Border properties
+  imageBorderRadius: number;
+  
+  // Audio processing
+  enableLowpass: boolean;
+  enableHighpass: boolean;
+  lowpassFreq: number;
+  highpassFreq: number;
+  smoothingTimeConstant: number;
+}
 
 export interface VisualizerProps {
   analyser: AnalyserNode;
