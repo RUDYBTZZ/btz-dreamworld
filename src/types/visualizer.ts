@@ -18,7 +18,6 @@ export interface VisualizerSettings {
   textAlignment: 'left' | 'center' | 'right';
   shapeRotation: boolean;
   shapeColor: string;
-  // New properties from the UI
   backgroundColor: string;
   backgroundOpacity: number;
   backgroundPosX: number;

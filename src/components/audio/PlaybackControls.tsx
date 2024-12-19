@@ -28,6 +28,7 @@ interface PlaybackControlsProps {
   onNext?: () => void;
   onShuffle?: () => void;
   onRepeat?: () => void;
+  onPlaylistToggle?: () => void;
   disabled: boolean;
 }
 
@@ -45,20 +46,18 @@ const PlaybackControls = ({
   onNext,
   onShuffle,
   onRepeat,
+  onPlaylistToggle,
   disabled
 }: PlaybackControlsProps) => {
   return (
     <div className="fixed bottom-0 left-0 right-0 bg-background/80 backdrop-blur-lg border-t border-white/10">
-      {/* Progress bar */}
       <Progress value={progress} className="w-full h-1 rounded-none bg-white/5" />
       
       <div className="flex items-center justify-between px-4 py-3 max-w-7xl mx-auto">
-        {/* Left section - Time */}
         <div className="text-sm text-muted-foreground w-24">
           00:00 / 00:00
         </div>
 
-        {/* Center section - Main controls */}
         <div className="flex items-center gap-4">
           <Button
             variant="ghost"
@@ -114,7 +113,6 @@ const PlaybackControls = ({
           </Button>
         </div>
 
-        {/* Right section - Volume & Settings */}
         <div className="flex items-center gap-4 w-24">
           <Button
             variant="ghost"
