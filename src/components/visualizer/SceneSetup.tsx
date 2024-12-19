@@ -1,5 +1,4 @@
 import * as THREE from 'three';
-import { useMemo } from 'react';
 
 export const setupScene = (containerRef: React.RefObject<HTMLDivElement>) => {
   console.log("Setting up new Three.js scene");
@@ -8,11 +7,9 @@ export const setupScene = (containerRef: React.RefObject<HTMLDivElement>) => {
 
   const scene = new THREE.Scene();
   
-  const camera = useMemo(() => {
-    const cam = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-    cam.position.z = 5;
-    return cam;
-  }, []);
+  // Create camera without useMemo
+  const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+  camera.position.z = 5;
 
   const renderer = new THREE.WebGLRenderer({ 
     alpha: true,
@@ -25,15 +22,13 @@ export const setupScene = (containerRef: React.RefObject<HTMLDivElement>) => {
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
   containerRef.current.appendChild(renderer.domElement);
 
-  const lights = useMemo(() => {
-    const ambientLight = new THREE.AmbientLight(0x404040);
-    const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
-    directionalLight.position.set(1, 1, 1);
-    return { ambientLight, directionalLight };
-  }, []);
+  // Create lights without useMemo
+  const ambientLight = new THREE.AmbientLight(0x404040);
+  const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
+  directionalLight.position.set(1, 1, 1);
 
-  scene.add(lights.ambientLight);
-  scene.add(lights.directionalLight);
+  scene.add(ambientLight);
+  scene.add(directionalLight);
 
   return { scene, camera, renderer };
 };
