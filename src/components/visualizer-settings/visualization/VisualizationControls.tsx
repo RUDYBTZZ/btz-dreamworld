@@ -10,7 +10,7 @@ import {
   Box, 
   Sparkles, 
   Zap, 
-  Ripple 
+  Droplets // Changed from Ripple to Droplets which better represents ripple effect
 } from "lucide-react";
 import type { VisualizerSettings } from "@/types/visualizer";
 import { handleSettingChange } from "@/utils/visualizer-settings";
@@ -62,7 +62,7 @@ const visualizationTypes = [
     value: "ripple",
     label: "Ripple Effect",
     description: "Mesmerizing ripples that spread with sound waves",
-    icon: Ripple
+    icon: Droplets
   }
 ];
 
