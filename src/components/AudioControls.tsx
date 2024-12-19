@@ -94,55 +94,66 @@ const AudioControls = ({ onAudioLoad }: AudioControlsProps) => {
   };
 
   return (
-    <div className="controls-panel">
-      <div
-        className={`upload-zone mb-4 ${isDragging ? 'dragging' : ''}`}
-        onDrop={handleDrop}
-        onDragOver={handleDragOver}
-        onDragLeave={handleDragLeave}
-      >
-        <Upload className="w-8 h-8 mx-auto mb-2 text-primary" />
-        <p>Drag and drop your audio file here</p>
-        <p className="text-sm text-muted-foreground">or click to select a file</p>
-        <input
-          type="file"
-          className="hidden"
-          accept="audio/*"
-          onChange={(e) => {
-            const file = e.target.files?.[0];
-            if (file) handleFileUpload(file);
-          }}
-        />
-      </div>
-      
-      <div className="flex items-center gap-4">
-        <Button
-          variant="outline"
-          size="icon"
-          onClick={togglePlayPause}
-          disabled={!audioRef.current?.src}
-          className="transition-transform hover:scale-105"
+    <div className="controls-panel p-4">
+      <div className="flex flex-col gap-4">
+        <div
+          className={`upload-zone flex items-center justify-center gap-2 ${isDragging ? 'dragging' : ''}`}
+          onDrop={handleDrop}
+          onDragOver={handleDragOver}
+          onDragLeave={handleDragLeave}
+          onClick={() => document.querySelector('input[type="file"]')?.click()}
         >
-          {isPlaying ? <Pause className="h-4 w-4" /> : <Play className="h-4 w-4" />}
-        </Button>
-        
-        <Button
-          variant="outline"
-          size="icon"
-          onClick={toggleMute}
-          disabled={!audioRef.current?.src}
-          className="transition-transform hover:scale-105"
-        >
-          {isMuted ? <VolumeX className="h-4 w-4" /> : <Volume2 className="h-4 w-4" />}
-        </Button>
-        
-        <Slider
-          defaultValue={[volume]}
-          max={100}
-          step={1}
-          className="w-full"
-          onValueChange={handleVolumeChange}
-        />
+          <Upload className="w-6 h-6 text-primary" />
+          <div className="flex flex-col">
+            <p className="text-sm font-medium">Drop your audio file here</p>
+            <p className="text-xs text-muted-foreground">or click to browse</p>
+          </div>
+          <input
+            type="file"
+            className="hidden"
+            accept="audio/*"
+            onChange={(e) => {
+              const file = e.target.files?.[0];
+              if (file) handleFileUpload(file);
+            }}
+          />
+        </div>
+
+        <div className="flex items-center gap-4 bg-background/50 p-3 rounded-lg">
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={togglePlayPause}
+            disabled={!audioRef.current?.src}
+            className="hover:bg-primary/20"
+          >
+            {isPlaying ? 
+              <Pause className="h-5 w-5" /> : 
+              <Play className="h-5 w-5" />
+            }
+          </Button>
+          
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={toggleMute}
+            disabled={!audioRef.current?.src}
+            className="hover:bg-primary/20"
+          >
+            {isMuted ? 
+              <VolumeX className="h-5 w-5" /> : 
+              <Volume2 className="h-5 w-5" />
+            }
+          </Button>
+          
+          <Slider
+            defaultValue={[volume]}
+            max={100}
+            step={1}
+            className="w-full max-w-[200px]"
+            onValueChange={handleVolumeChange}
+          />
+        </div>
       </div>
 
       <audio ref={audioRef} className="hidden" />
