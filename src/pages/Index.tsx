@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import AudioVisualizer from "@/components/AudioVisualizer";
-import AudioControls from "@/components/AudioControls";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/AppSidebar";
 import { VisualizerSettingsModal } from "@/components/VisualizerSettingsModal";
@@ -35,19 +34,6 @@ const Index = () => {
     };
   }, []);
 
-  const handleAudioLoad = (audioElement: HTMLAudioElement) => {
-    if (!audioContext) return;
-    
-    if (audioSource) {
-      audioSource.disconnect();
-    }
-    
-    const source = audioContext.createMediaElementSource(audioElement);
-    source.connect(audioContext.destination);
-    setAudioSource(source);
-    console.log("New audio source connected");
-  };
-
   return (
     <SidebarProvider>
       <div 
@@ -79,10 +65,6 @@ const Index = () => {
               audioSource={audioSource}
               settings={visualizerSettings}
             />
-          </div>
-          
-          <div className="fixed bottom-0 left-0 right-0 z-50 max-w-2xl mx-auto mb-8">
-            <AudioControls onAudioLoad={handleAudioLoad} />
           </div>
         </main>
       </div>
