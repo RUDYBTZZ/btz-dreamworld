@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import AudioVisualizer from "@/components/AudioVisualizer";
 import AudioControls from "@/components/AudioControls";
+import { VisualizerSettingsModal } from "@/components/VisualizerSettingsModal";
 import type { VisualizerSettings } from "@/types/visualizer";
 
 const Index = () => {
@@ -43,6 +44,11 @@ const Index = () => {
     console.log("New audio source connected");
   };
 
+  const handleSettingsChange = (newSettings: VisualizerSettings) => {
+    setVisualizerSettings(newSettings);
+    console.log("Visualizer settings updated:", newSettings);
+  };
+
   return (
     <div 
       className="min-h-screen flex flex-col items-center justify-center relative transition-all duration-300"
@@ -52,6 +58,13 @@ const Index = () => {
         backgroundPosition: 'center'
       }}
     >
+      <VisualizerSettingsModal 
+        settings={visualizerSettings}
+        onSettingsChange={handleSettingsChange}
+        background={background}
+        onBackgroundChange={setBackground}
+      />
+      
       <main className="flex-1 w-full flex flex-col items-center justify-center relative">
         <div className="absolute inset-0 z-0">
           <AudioVisualizer 
