@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import AudioVisualizer from "@/components/AudioVisualizer";
 import AudioControls from "@/components/AudioControls";
 import { VisualizerSettingsModal } from "@/components/VisualizerSettingsModal";
+import BackgroundControls from "@/components/BackgroundControls";
 import type { VisualizerSettings } from "@/types/visualizer";
 
 const Index = () => {
@@ -17,7 +18,16 @@ const Index = () => {
     sizeY: 500,
     colorScheme: 'default',
     zoomSpeed: 0.5,
-    zoomIntensity: 0.3
+    zoomIntensity: 0.3,
+    bassResponse: 0.5,
+    snareResponse: 0.5,
+    particleCount: 100,
+    particleSize: 2,
+    particleSpeed: 0.5,
+    textSize: 32,
+    textAlignment: 'center',
+    shapeRotation: true,
+    shapeColor: '#ffffff'
   });
 
   useEffect(() => {
@@ -64,6 +74,8 @@ const Index = () => {
         background={background}
         onBackgroundChange={setBackground}
       />
+      
+      <BackgroundControls onBackgroundChange={setBackground} />
       
       <main className="flex-1 w-full flex flex-col items-center justify-center relative">
         <div className="absolute inset-0 z-0">
