@@ -26,7 +26,8 @@ const Index = () => {
     textSize: 32,
     textAlignment: 'center',
     shapeRotation: true,
-    shapeColor: '#ffffff'
+    shapeColor: '#ffffff',
+    waveType: 'sine'
   });
 
   useEffect(() => {
