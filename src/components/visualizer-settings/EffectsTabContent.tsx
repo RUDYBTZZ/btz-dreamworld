@@ -1,5 +1,7 @@
 import { Slider } from "@/components/ui/slider";
 import { Switch } from "@/components/ui/switch";
+import { Button } from "@/components/ui/button";
+import { Wand2, Zap } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import type { VisualizerSettings } from "@/types/visualizer";
 
@@ -19,8 +21,60 @@ export function EffectsTabContent({ settings, onSettingChange }: EffectsTabConte
     });
   };
 
+  const randomizeEffects = () => {
+    const randomValue = () => Math.random();
+    
+    handleEffectChange("intensity", randomValue());
+    handleEffectChange("speed", randomValue());
+    handleEffectChange("glitchAmount", randomValue() * 0.5);
+    handleEffectChange("zoomSpeed", randomValue());
+    handleEffectChange("zoomIntensity", randomValue());
+    
+    toast({
+      title: "Effects Randomized",
+      description: "New random effect settings applied",
+    });
+  };
+
+  const applyIntenseEffects = () => {
+    handleEffectChange("intensity", 0.8);
+    handleEffectChange("speed", 0.7);
+    handleEffectChange("glitchAmount", 0.3);
+    handleEffectChange("zoomSpeed", 0.6);
+    handleEffectChange("zoomIntensity", 0.7);
+    
+    toast({
+      title: "Intense Effects Applied",
+      description: "Maximum impact settings enabled",
+    });
+  };
+
   return (
     <div className="space-y-6">
+      <div className="flex items-center justify-between mb-6">
+        <h3 className="text-sm font-medium">Quick Actions</h3>
+        <div className="flex gap-2">
+          <Button 
+            variant="outline" 
+            size="sm"
+            onClick={randomizeEffects}
+            className="flex items-center gap-2"
+          >
+            <Wand2 className="w-4 h-4" />
+            Randomize
+          </Button>
+          <Button 
+            variant="outline" 
+            size="sm"
+            onClick={applyIntenseEffects}
+            className="flex items-center gap-2"
+          >
+            <Zap className="w-4 h-4" />
+            Max Impact
+          </Button>
+        </div>
+      </div>
+
       <div className="space-y-2">
         <div className="flex items-center justify-between">
           <label className="text-sm font-medium">Bass Intensity</label>
