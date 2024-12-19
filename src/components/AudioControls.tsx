@@ -54,6 +54,13 @@ const AudioControls = ({ onAudioLoad }: AudioControlsProps) => {
     setIsDragging(false);
   };
 
+  const handleUploadClick = () => {
+    const fileInput = document.querySelector('input[type="file"]') as HTMLInputElement;
+    if (fileInput) {
+      fileInput.click();
+    }
+  };
+
   const togglePlayPause = () => {
     if (!audioRef.current) return;
     
@@ -101,7 +108,7 @@ const AudioControls = ({ onAudioLoad }: AudioControlsProps) => {
           onDrop={handleDrop}
           onDragOver={handleDragOver}
           onDragLeave={handleDragLeave}
-          onClick={() => document.querySelector('input[type="file"]')?.click()}
+          onClick={handleUploadClick}
         >
           <Upload className="w-6 h-6 text-primary" />
           <div className="flex flex-col">
