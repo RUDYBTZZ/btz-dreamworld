@@ -7,6 +7,10 @@ export const useAudioPlayer = (onAudioLoad: (audioElement: HTMLAudioElement) => 
   const [volume, setVolume] = useState(100);
   const [progress, setProgress] = useState(0);
   const [hasAudio, setHasAudio] = useState(false);
+  const [isRepeat, setIsRepeat] = useState(false);
+  const [isShuffle, setIsShuffle] = useState(false);
+  const [playlist, setPlaylist] = useState<string[]>([]);
+  const [currentTrackIndex, setCurrentTrackIndex] = useState(0);
   const audioRef = useRef<HTMLAudioElement>(null);
   const { toast } = useToast();
 
@@ -19,9 +23,22 @@ export const useAudioPlayer = (onAudioLoad: (audioElement: HTMLAudioElement) => 
       setProgress(isNaN(value) ? 0 : value);
     };
 
+    const handleTrackEnd = () => {
+      if (isRepeat) {
+        audio.currentTime = 0;
+        audio.play();
+      } else if (playlist.length > 0) {
+        playNextTrack();
+      }
+    };
+
     audio.addEventListener('timeupdate', updateProgress);
-    return () => audio.removeEventListener('timeupdate', updateProgress);
-  }, []);
+    audio.addEventListener('ended', handleTrackEnd);
+    return () => {
+      audio.removeEventListener('timeupdate', updateProgress);
+      audio.removeEventListener('ended', handleTrackEnd);
+    };
+  }, [isRepeat, playlist]);
 
   const handleAudioLoad = (file: File) => {
     const url = URL.createObjectURL(file);
@@ -30,6 +47,7 @@ export const useAudioPlayer = (onAudioLoad: (audioElement: HTMLAudioElement) => 
       audioRef.current.load();
       onAudioLoad(audioRef.current);
       setHasAudio(true);
+      setPlaylist([...playlist, url]);
       toast({
         title: "Audio loaded",
         description: "Your audio file has been loaded successfully.",
@@ -76,6 +94,89 @@ export const useAudioPlayer = (onAudioLoad: (audioElement: HTMLAudioElement) => 
     }
   };
 
+  const playPreviousTrack = () => {
+    if (playlist.length === 0) return;
+    
+    let newIndex;
+    if (isShuffle) {
+      newIndex = Math.floor(Math.random() * playlist.length);
+    } else {
+      newIndex = (currentTrackIndex - 1 + playlist.length) % playlist.length;
+    }
+    
+    setCurrentTrackIndex(newIndex);
+    if (audioRef.current) {
+      audioRef.current.src = playlist[newIndex];
+      audioRef.current.load();
+      audioRef.current.play();
+      setIsPlaying(true);
+    }
+  };
+
+  const playNextTrack = () => {
+    if (playlist.length === 0) return;
+    
+    let newIndex;
+    if (isShuffle) {
+      newIndex = Math.floor(Math.random() * playlist.length);
+    } else {
+      newIndex = (currentTrackIndex + 1) % playlist.length;
+    }
+    
+    setCurrentTrackIndex(newIndex);
+    if (audioRef.current) {
+      audioRef.current.src = playlist[newIndex];
+      audioRef.current.load();
+      audioRef.current.play();
+      setIsPlaying(true);
+    }
+  };
+
+  const toggleShuffle = () => {
+    setIsShuffle(!isShuffle);
+    toast({
+      title: !isShuffle ? "Shuffle enabled" : "Shuffle disabled",
+      description: !isShuffle ? "Tracks will play in random order" : "Tracks will play in sequence",
+    });
+  };
+
+  const toggleRepeat = () => {
+    setIsRepeat(!isRepeat);
+    toast({
+      title: !isRepeat ? "Repeat enabled" : "Repeat disabled",
+      description: !isRepeat ? "Current track will repeat" : "Playlist will continue to next track",
+    });
+  };
+
+  const savePlaylist = () => {
+    const playlistData = JSON.stringify(playlist);
+    localStorage.setItem('audioPlaylist', playlistData);
+    toast({
+      title: "Playlist saved",
+      description: "Your playlist has been saved successfully.",
+    });
+  };
+
+  const loadPlaylist = () => {
+    const savedPlaylist = localStorage.getItem('audioPlaylist');
+    if (savedPlaylist) {
+      const loadedPlaylist = JSON.parse(savedPlaylist);
+      setPlaylist(loadedPlaylist);
+      toast({
+        title: "Playlist loaded",
+        description: "Your saved playlist has been loaded successfully.",
+      });
+    }
+  };
+
+  const togglePlaylist = () => {
+    // This function would be implemented when we add the playlist UI component
+    toast({
+      title: "Coming soon",
+      description: "Playlist view will be implemented in the next update.",
+    });
+  };
+
   return {
     audioRef,
     isPlaying,
@@ -83,9 +184,18 @@ export const useAudioPlayer = (onAudioLoad: (audioElement: HTMLAudioElement) => 
     volume,
     progress,
     hasAudio,
+    isRepeat,
+    isShuffle,
     handleAudioLoad,
     togglePlayPause,
     toggleMute,
     handleVolumeChange,
+    playPreviousTrack,
+    playNextTrack,
+    toggleShuffle,
+    toggleRepeat,
+    togglePlaylist,
+    savePlaylist,
+    loadPlaylist,
   };
 };

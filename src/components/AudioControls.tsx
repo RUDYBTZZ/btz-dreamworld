@@ -15,10 +15,19 @@ const AudioControls = ({ onAudioLoad }: AudioControlsProps) => {
     volume,
     progress,
     hasAudio,
+    isRepeat,
+    isShuffle,
     handleAudioLoad,
     togglePlayPause,
     toggleMute,
     handleVolumeChange,
+    playPreviousTrack,
+    playNextTrack,
+    toggleShuffle,
+    toggleRepeat,
+    togglePlaylist,
+    savePlaylist,
+    loadPlaylist,
   } = useAudioPlayer(onAudioLoad);
 
   return (
@@ -33,9 +42,18 @@ const AudioControls = ({ onAudioLoad }: AudioControlsProps) => {
           isMuted={isMuted}
           volume={volume}
           progress={progress}
+          isRepeat={isRepeat}
+          isShuffle={isShuffle}
           onPlayPause={togglePlayPause}
           onMuteToggle={toggleMute}
           onVolumeChange={handleVolumeChange}
+          onPrevious={playPreviousTrack}
+          onNext={playNextTrack}
+          onShuffle={toggleShuffle}
+          onRepeat={toggleRepeat}
+          onPlaylistToggle={togglePlaylist}
+          onPlaylistSave={savePlaylist}
+          onPlaylistLoad={loadPlaylist}
           disabled={!audioRef.current?.src}
         />
       </div>

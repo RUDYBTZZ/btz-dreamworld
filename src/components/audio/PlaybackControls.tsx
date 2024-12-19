@@ -21,6 +21,8 @@ interface PlaybackControlsProps {
   isMuted: boolean;
   volume: number;
   progress: number;
+  isRepeat?: boolean;
+  isShuffle?: boolean;
   onPlayPause: () => void;
   onMuteToggle: () => void;
   onVolumeChange: (value: number[]) => void;
@@ -39,6 +41,8 @@ const PlaybackControls = ({
   isMuted,
   volume,
   progress,
+  isRepeat,
+  isShuffle,
   onPlayPause,
   onMuteToggle,
   onVolumeChange,
@@ -97,7 +101,7 @@ const PlaybackControls = ({
             size="icon"
             onClick={onShuffle}
             disabled={disabled}
-            className="hover:bg-primary/20"
+            className={`hover:bg-primary/20 ${isShuffle ? 'text-primary' : ''}`}
           >
             <Shuffle className="h-5 w-5" />
           </Button>
@@ -107,7 +111,7 @@ const PlaybackControls = ({
             size="icon"
             onClick={onRepeat}
             disabled={disabled}
-            className="hover:bg-primary/20"
+            className={`hover:bg-primary/20 ${isRepeat ? 'text-primary' : ''}`}
           >
             <Repeat className="h-5 w-5" />
           </Button>
