@@ -17,4 +17,5 @@ export interface VisualizerSettings {
   textAlignment: 'left' | 'center' | 'right';
   shapeRotation: boolean;
   shapeColor: string;
+  waveType: 'sine' | 'square' | 'sawtooth' | 'triangle';
 }
