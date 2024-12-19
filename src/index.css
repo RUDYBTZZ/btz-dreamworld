@@ -78,6 +78,19 @@
   @apply border-primary bg-primary/10;
 }
 
+/* Audio Player Styles */
+.progress-bar {
+  @apply h-1 bg-white/5;
+}
+
+.progress-bar::-webkit-progress-value {
+  @apply bg-primary;
+}
+
+.progress-bar::-webkit-progress-bar {
+  @apply bg-white/5;
+}
+
 /* Enhanced glass effect */
 .glass-panel {
   background: rgba(255, 255, 255, 0.1);

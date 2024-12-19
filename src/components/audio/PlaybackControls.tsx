@@ -7,13 +7,11 @@ import {
   Pause, 
   Volume2, 
   VolumeX,
-  ChevronLeft,
-  ChevronRight,
+  SkipBack,
+  SkipForward,
   Shuffle,
   Repeat,
-  List,
-  Save,
-  FolderOpen
+  Settings2
 } from "lucide-react";
 
 interface PlaybackControlsProps {
@@ -30,9 +28,6 @@ interface PlaybackControlsProps {
   onNext?: () => void;
   onShuffle?: () => void;
   onRepeat?: () => void;
-  onPlaylistToggle?: () => void;
-  onPlaylistSave?: () => void;
-  onPlaylistLoad?: () => void;
   disabled: boolean;
 }
 
@@ -50,25 +45,39 @@ const PlaybackControls = ({
   onNext,
   onShuffle,
   onRepeat,
-  onPlaylistToggle,
-  onPlaylistSave,
-  onPlaylistLoad,
   disabled
 }: PlaybackControlsProps) => {
   return (
-    <div className="flex flex-col gap-2 bg-background/50 p-3 rounded-lg">
-      <Progress value={progress} className="w-full h-2" />
+    <div className="fixed bottom-0 left-0 right-0 bg-background/80 backdrop-blur-lg border-t border-white/10">
+      {/* Progress bar */}
+      <Progress value={progress} className="w-full h-1 rounded-none bg-white/5" />
       
-      <div className="flex items-center justify-between gap-4">
-        <div className="flex items-center gap-2">
+      <div className="flex items-center justify-between px-4 py-3 max-w-7xl mx-auto">
+        {/* Left section - Time */}
+        <div className="text-sm text-muted-foreground w-24">
+          00:00 / 00:00
+        </div>
+
+        {/* Center section - Main controls */}
+        <div className="flex items-center gap-4">
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={onShuffle}
+            disabled={disabled}
+            className={`hover:bg-white/5 ${isShuffle ? 'text-primary' : 'text-muted-foreground'}`}
+          >
+            <Shuffle className="h-5 w-5" />
+          </Button>
+
           <Button
             variant="ghost"
             size="icon"
             onClick={onPrevious}
             disabled={disabled}
-            className="hover:bg-primary/20"
+            className="hover:bg-white/5"
           >
-            <ChevronLeft className="h-5 w-5" />
+            <SkipBack className="h-5 w-5" />
           </Button>
 
           <Button
@@ -76,11 +85,11 @@ const PlaybackControls = ({
             size="icon"
             onClick={onPlayPause}
             disabled={disabled}
-            className="hover:bg-primary/20"
+            className="h-12 w-12 rounded-full bg-primary/10 hover:bg-primary/20 text-primary"
           >
             {isPlaying ? 
-              <Pause className="h-5 w-5" /> : 
-              <Play className="h-5 w-5" />
+              <Pause className="h-6 w-6" /> : 
+              <Play className="h-6 w-6" />
             }
           </Button>
 
@@ -89,21 +98,9 @@ const PlaybackControls = ({
             size="icon"
             onClick={onNext}
             disabled={disabled}
-            className="hover:bg-primary/20"
+            className="hover:bg-white/5"
           >
-            <ChevronRight className="h-5 w-5" />
-          </Button>
-        </div>
-
-        <div className="flex items-center gap-2">
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={onShuffle}
-            disabled={disabled}
-            className={`hover:bg-primary/20 ${isShuffle ? 'text-primary' : ''}`}
-          >
-            <Shuffle className="h-5 w-5" />
+            <SkipForward className="h-5 w-5" />
           </Button>
 
           <Button
@@ -111,19 +108,20 @@ const PlaybackControls = ({
             size="icon"
             onClick={onRepeat}
             disabled={disabled}
-            className={`hover:bg-primary/20 ${isRepeat ? 'text-primary' : ''}`}
+            className={`hover:bg-white/5 ${isRepeat ? 'text-primary' : 'text-muted-foreground'}`}
           >
             <Repeat className="h-5 w-5" />
           </Button>
         </div>
 
-        <div className="flex items-center gap-2">
+        {/* Right section - Volume & Settings */}
+        <div className="flex items-center gap-4 w-24">
           <Button
             variant="ghost"
             size="icon"
             onClick={onMuteToggle}
             disabled={disabled}
-            className="hover:bg-primary/20"
+            className="hover:bg-white/5"
           >
             {isMuted ? 
               <VolumeX className="h-5 w-5" /> : 
@@ -135,41 +133,9 @@ const PlaybackControls = ({
             defaultValue={[volume]}
             max={100}
             step={1}
-            className="w-[100px]"
+            className="w-[80px]"
             onValueChange={onVolumeChange}
           />
-        </div>
-
-        <div className="flex items-center gap-2">
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={onPlaylistToggle}
-            disabled={disabled}
-            className="hover:bg-primary/20"
-          >
-            <List className="h-5 w-5" />
-          </Button>
-
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={onPlaylistSave}
-            disabled={disabled}
-            className="hover:bg-primary/20"
-          >
-            <Save className="h-5 w-5" />
-          </Button>
-
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={onPlaylistLoad}
-            disabled={disabled}
-            className="hover:bg-primary/20"
-          >
-            <FolderOpen className="h-5 w-5" />
-          </Button>
         </div>
       </div>
     </div>
