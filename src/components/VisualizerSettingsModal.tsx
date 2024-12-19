@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Settings2, X } from "lucide-react";
+import { Settings2 } from "lucide-react";
 import {
   Dialog,
   DialogContent,
@@ -18,15 +18,11 @@ import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ChromePicker } from 'react-color';
+import type { VisualizerSettings } from "@/types/visualizer";
 
 interface VisualizerSettingsModalProps {
-  settings: {
-    intensity: number;
-    speed: number;
-    glitchAmount: number;
-    barType: string;
-  };
-  onSettingsChange: (settings: any) => void;
+  settings: VisualizerSettings;
+  onSettingsChange: (settings: VisualizerSettings) => void;
   background: string;
   onBackgroundChange: (color: string) => void;
 }
@@ -39,7 +35,7 @@ export function VisualizerSettingsModal({
 }: VisualizerSettingsModalProps) {
   const [showColorPicker, setShowColorPicker] = useState(false);
 
-  const handleSettingChange = (key: string, value: number | string) => {
+  const handleSettingChange = (key: keyof VisualizerSettings, value: number | string) => {
     onSettingsChange({
       ...settings,
       [key]: value,
@@ -252,4 +248,3 @@ export function VisualizerSettingsModal({
       </DialogContent>
     </Dialog>
   );
-}

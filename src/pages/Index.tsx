@@ -4,12 +4,13 @@ import AudioControls from "@/components/AudioControls";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/AppSidebar";
 import { VisualizerSettingsModal } from "@/components/VisualizerSettingsModal";
+import type { VisualizerSettings } from "@/types/visualizer";
 
 const Index = () => {
   const [audioContext, setAudioContext] = useState<AudioContext | null>(null);
   const [audioSource, setAudioSource] = useState<MediaElementAudioSourceNode | null>(null);
   const [background, setBackground] = useState('#9f7aea');
-  const [visualizerSettings, setVisualizerSettings] = useState({
+  const [visualizerSettings, setVisualizerSettings] = useState<VisualizerSettings>({
     intensity: 0.5,
     speed: 0.5,
     glitchAmount: 0,
