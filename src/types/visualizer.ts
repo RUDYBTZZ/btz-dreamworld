@@ -5,11 +5,11 @@ export const VisualizerSettingsSchema = z.object({
   intensity: z.number().min(0).max(1),
   speed: z.number().min(0).max(1),
   glitchAmount: z.number().min(0).max(1),
-  barType: z.enum(['default', 'circular', 'wave', 'blocks', 'particles', 'particleBurst', 'ripple', 'pattern']),
+  barType: z.enum(['default', 'circular', 'wave', 'blocks', 'particles', 'particleBurst', 'ripple', 'pattern', 'grid', 'snare']),
   sizeX: z.number().min(100).max(2000),
   sizeY: z.number().min(100).max(2000),
-  colorScheme: z.enum(['default', 'neon', 'sunset', 'rainbow', 'monochrome', 'gradient', 'glass']),
-  waveType: z.enum(['sine', 'square', 'sawtooth', 'triangle']).default('sine'),
+  colorScheme: z.enum(['default', 'neon', 'sunset', 'rainbow', 'monochrome', 'duotone', 'tritone']),
+  waveType: z.enum(['sine', 'square', 'sawtooth', 'triangle']),
   zoomSpeed: z.number().min(0).max(1),
   zoomIntensity: z.number().min(0).max(1),
   bassResponse: z.number().min(0).max(1),
@@ -33,11 +33,19 @@ export const VisualizerSettingsSchema = z.object({
   lowpassFreq: z.number().positive(),
   highpassFreq: z.number().positive(),
   smoothingTimeConstant: z.number().min(0).max(1),
-  shape3DType: z.enum(['3dtext', 'cube', 'sphere', 'ring']),
+  shape3DType: z.enum(['3dtext', 'cube', 'sphere', 'ring', 'grid']),
   textContent: z.string(),
   textColor: z.string(),
   bassResponseIntensity: z.number().min(0).max(1),
-  animationSpeed: z.number().min(0).max(1)
+  animationSpeed: z.number().min(0).max(1),
+  gridSize: z.number().min(8).max(32),
+  motionBlur: z.number().min(0).max(5),
+  trailPersistence: z.number().min(5).max(8),
+  patternDensity: z.enum(['8x8', '16x16', '24x24', '32x32']),
+  snareAttackTime: z.number().min(5).max(10),
+  snareDecayTime: z.number().min(200).max(500),
+  particleLifetime: z.number().min(300).max(800),
+  wavePropagationSpeed: z.number().min(100).max(500)
 });
 
 export type VisualizerSettings = z.infer<typeof VisualizerSettingsSchema>;

@@ -12,7 +12,7 @@ const Index = () => {
     intensity: 0.5,
     speed: 0.5,
     glitchAmount: 0,
-    barType: 'default',
+    barType: 'grid',
     sizeX: 500,
     sizeY: 500,
     colorScheme: 'default',
@@ -40,11 +40,19 @@ const Index = () => {
     lowpassFreq: 20,
     highpassFreq: 410,
     smoothingTimeConstant: 0.1,
-    shape3DType: 'cube',
+    shape3DType: 'grid',
     textContent: '3D TEXT',
     textColor: '#9f7aea',
     bassResponseIntensity: 0.5,
-    animationSpeed: 0.5
+    animationSpeed: 0.5,
+    gridSize: 16,
+    motionBlur: 2,
+    trailPersistence: 5,
+    patternDensity: '16x16',
+    snareAttackTime: 5,
+    snareDecayTime: 200,
+    particleLifetime: 300,
+    wavePropagationSpeed: 100
   });
 
   useEffect(() => {

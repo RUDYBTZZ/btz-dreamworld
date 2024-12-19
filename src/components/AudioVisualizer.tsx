@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useCallback, useMemo } from 'react';
+import React, { useEffect, useRef, useCallback } from 'react';
 import * as THREE from 'three';
 import { useToast } from "@/hooks/use-toast";
 import DefaultVisualizer from './visualizers/DefaultVisualizer';
@@ -9,11 +9,11 @@ import ParticlesVisualizer from './visualizers/ParticlesVisualizer';
 import ParticleBurstVisualizer from './visualizers/ParticleBurstVisualizer';
 import RippleVisualizer from './visualizers/RippleVisualizer';
 import PatternVisualizer from './visualizers/PatternVisualizer';
+import GridVisualizer from './visualizers/GridVisualizer';
 import { setupScene } from './visualizer/SceneSetup';
 import { setupAnalyzer } from './visualizer/AnalyzerSetup';
 import { createResizeHandler } from './visualizer/ResizeHandler';
 import { cleanupVisualizer } from './visualizer/CleanupUtils';
-import ErrorBoundary from './ErrorBoundary';
 import type { VisualizerSettings, VisualizerComponent } from './visualizers/types';
 
 interface AudioVisualizerProps {
@@ -38,6 +38,8 @@ const AudioVisualizer = React.memo(({ audioContext, audioSource, settings }: Aud
     console.log("Creating visualizer with settings:", settings);
     
     switch (settings.barType) {
+      case 'grid':
+        return GridVisualizer({ analyser, settings, dataArray });
       case 'pattern':
         return PatternVisualizer({ analyser, settings, dataArray });
       case 'circular':
@@ -67,16 +69,9 @@ const AudioVisualizer = React.memo(({ audioContext, audioSource, settings }: Aud
       frameIdRef.current = requestAnimationFrame(createAnimationLoop(visualizer, renderer, scene, camera));
       
       visualizer.update();
-
-      if (settings.glitchAmount > 0) {
-        const glitchScale = Math.random() * settings.glitchAmount * 0.1;
-        visualizer.mesh.position.x = (Math.random() - 0.5) * glitchScale;
-        visualizer.mesh.position.y = (Math.random() - 0.5) * glitchScale;
-      }
-
       renderer.render(scene, camera);
     };
-  }, [settings.glitchAmount]);
+  }, []);
 
   useEffect(() => {
     if (!containerRef.current || !audioContext || !audioSource) return;
@@ -120,9 +115,7 @@ const AudioVisualizer = React.memo(({ audioContext, audioSource, settings }: Aud
   }, [audioContext, audioSource, settings, createVisualizer, createAnimationLoop]);
 
   return (
-    <ErrorBoundary>
-      <div ref={containerRef} className="visualizer-container" />
-    </ErrorBoundary>
+    <div ref={containerRef} className="visualizer-container" />
   );
 });
 
