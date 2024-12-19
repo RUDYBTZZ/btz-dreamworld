@@ -97,7 +97,11 @@ const Index = () => {
         </div>
         
         <div className="fixed bottom-0 left-0 right-0 z-50 max-w-2xl mx-auto mb-8">
-          <AudioControls onAudioLoad={handleAudioLoad} />
+          <AudioControls 
+            onAudioLoad={handleAudioLoad}
+            settings={visualizerSettings}
+            onSettingsChange={setVisualizerSettings}
+          />
         </div>
       </main>
     </div>
