@@ -4,6 +4,7 @@ import type { VisualizerProps, VisualizerComponent } from './types';
 const CircularVisualizer = ({ analyser, settings, dataArray }: VisualizerProps): VisualizerComponent => {
   console.log("Initializing Circular visualizer with settings:", settings);
 
+  // Create geometry and material directly without hooks
   const geometry = new THREE.TorusGeometry(2, 0.5, 16, 100);
   const material = new THREE.MeshPhongMaterial({ 
     color: 0x9b87f5,
@@ -19,7 +20,12 @@ const CircularVisualizer = ({ analyser, settings, dataArray }: VisualizerProps):
     visualizer.rotation.z += 0.01 * settings.speed;
   };
 
-  return { mesh: visualizer, update };
+  const cleanup = () => {
+    geometry.dispose();
+    material.dispose();
+  };
+
+  return { mesh: visualizer, update, cleanup };
 };
 
 export default CircularVisualizer;

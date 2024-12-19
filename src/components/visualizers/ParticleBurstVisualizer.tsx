@@ -1,46 +1,41 @@
 import * as THREE from 'three';
-import { useMemo } from 'react';
-import { VisualizerProps } from './types';
+import type { VisualizerProps, VisualizerComponent } from './types';
 
-const ParticleBurstVisualizer = ({ analyser, settings, dataArray }: VisualizerProps) => {
+const ParticleBurstVisualizer = ({ analyser, settings, dataArray }: VisualizerProps): VisualizerComponent => {
   console.log("Initializing ParticleBurst visualizer with settings:", settings);
 
-  // Memoize particle system creation
-  const { particleSystem, positions, velocities } = useMemo(() => {
-    const particleCount = 1000;
-    const particles = new THREE.BufferGeometry();
-    const positions = new Float32Array(particleCount * 3);
-    const velocities = new Float32Array(particleCount * 3);
+  // Create particle system directly without hooks
+  const particleCount = 1000;
+  const particles = new THREE.BufferGeometry();
+  const positions = new Float32Array(particleCount * 3);
+  const velocities = new Float32Array(particleCount * 3);
 
-    for (let i = 0; i < particleCount * 3; i += 3) {
-      const angle = Math.random() * Math.PI * 2;
-      const radius = Math.random() * 2;
-      positions[i] = Math.cos(angle) * radius;
-      positions[i + 1] = Math.sin(angle) * radius;
-      positions[i + 2] = (Math.random() - 0.5) * 2;
-      
-      velocities[i] = (Math.random() - 0.5) * 0.02;
-      velocities[i + 1] = (Math.random() - 0.5) * 0.02;
-      velocities[i + 2] = (Math.random() - 0.5) * 0.02;
-    }
-
-    particles.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-
-    const particleMaterial = new THREE.PointsMaterial({
-      color: 0x9b87f5,
-      size: 0.05,
-      transparent: true,
-      blending: THREE.AdditiveBlending
-    });
-
-    const system = new THREE.Points(particles, particleMaterial);
+  for (let i = 0; i < particleCount * 3; i += 3) {
+    const angle = Math.random() * Math.PI * 2;
+    const radius = Math.random() * 2;
+    positions[i] = Math.cos(angle) * radius;
+    positions[i + 1] = Math.sin(angle) * radius;
+    positions[i + 2] = (Math.random() - 0.5) * 2;
     
-    return { particleSystem: system, positions, velocities };
-  }, []);
+    velocities[i] = (Math.random() - 0.5) * 0.02;
+    velocities[i + 1] = (Math.random() - 0.5) * 0.02;
+    velocities[i + 2] = (Math.random() - 0.5) * 0.02;
+  }
+
+  particles.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+
+  const particleMaterial = new THREE.PointsMaterial({
+    color: 0x9b87f5,
+    size: 0.05,
+    transparent: true,
+    blending: THREE.AdditiveBlending
+  });
+
+  const system = new THREE.Points(particles, particleMaterial);
 
   const update = () => {
     analyser.getByteFrequencyData(dataArray);
-    const positions = particleSystem.geometry.attributes.position.array as Float32Array;
+    const positions = system.geometry.attributes.position.array as Float32Array;
     const bassValue = (dataArray[0] / 255) * settings.intensity;
 
     for (let i = 0; i < positions.length; i += 3) {
@@ -61,11 +56,16 @@ const ParticleBurstVisualizer = ({ analyser, settings, dataArray }: VisualizerPr
       }
     }
 
-    particleSystem.geometry.attributes.position.needsUpdate = true;
-    particleSystem.rotation.y += 0.001 * settings.speed;
+    system.geometry.attributes.position.needsUpdate = true;
+    system.rotation.y += 0.001 * settings.speed;
   };
 
-  return { mesh: particleSystem, update };
+  const cleanup = () => {
+    particles.dispose();
+    particleMaterial.dispose();
+  };
+
+  return { mesh: system, update, cleanup };
 };
 
 export default ParticleBurstVisualizer;
