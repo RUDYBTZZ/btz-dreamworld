@@ -29,6 +29,8 @@ interface PlaybackControlsProps {
   onShuffle?: () => void;
   onRepeat?: () => void;
   onPlaylistToggle?: () => void;
+  onPlaylistSave?: () => void;
+  onPlaylistLoad?: () => void;
   disabled: boolean;
 }
 
@@ -47,6 +49,8 @@ const PlaybackControls = ({
   onShuffle,
   onRepeat,
   onPlaylistToggle,
+  onPlaylistSave,
+  onPlaylistLoad,
   disabled
 }: PlaybackControlsProps) => {
   return (
