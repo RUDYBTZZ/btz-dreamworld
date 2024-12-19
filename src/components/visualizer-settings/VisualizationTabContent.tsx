@@ -1,7 +1,7 @@
-import type { VisualizerSettings } from "@/types/visualizer";
-import { VisualizationQuickActions } from "./visualization/VisualizationQuickActions";
-import { VisualizationPresets } from "./visualization/VisualizationPresets";
 import { VisualizationControls } from "./visualization/VisualizationControls";
+import { VisualizationPresets } from "./visualization/VisualizationPresets";
+import { VisualizationQuickActions } from "./visualization/VisualizationQuickActions";
+import type { VisualizerSettings } from "@/types/visualizer";
 
 interface VisualizationTabContentProps {
   settings: VisualizerSettings;
@@ -11,9 +11,18 @@ interface VisualizationTabContentProps {
 export function VisualizationTabContent({ settings, onSettingChange }: VisualizationTabContentProps) {
   return (
     <div className="space-y-6">
-      <VisualizationQuickActions settings={settings} onSettingChange={onSettingChange} />
-      <VisualizationPresets settings={settings} onSettingChange={onSettingChange} />
-      <VisualizationControls settings={settings} onSettingChange={onSettingChange} />
+      <VisualizationQuickActions 
+        settings={settings}
+        onSettingChange={onSettingChange}
+      />
+      <VisualizationPresets 
+        settings={settings}
+        onSettingChange={onSettingChange}
+      />
+      <VisualizationControls 
+        settings={settings}
+        onSettingChange={onSettingChange}
+      />
     </div>
   );
 }

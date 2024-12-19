@@ -1,7 +1,7 @@
-import type { VisualizerSettings } from "@/types/visualizer";
-import { EffectsQuickActions } from "./effects/EffectsQuickActions";
+import { EffectsControls } from "./effects/EffectsControls";
 import { EffectsPresets } from "./effects/EffectsPresets";
-import { EffectsSliders } from "./effects/EffectsSliders";
+import { EffectsQuickActions } from "./effects/EffectsQuickActions";
+import type { VisualizerSettings } from "@/types/visualizer";
 
 interface EffectsTabContentProps {
   settings: VisualizerSettings;
@@ -11,9 +11,18 @@ interface EffectsTabContentProps {
 export function EffectsTabContent({ settings, onSettingChange }: EffectsTabContentProps) {
   return (
     <div className="space-y-6">
-      <EffectsQuickActions settings={settings} onSettingChange={onSettingChange} />
-      <EffectsPresets settings={settings} onSettingChange={onSettingChange} />
-      <EffectsSliders settings={settings} onSettingChange={onSettingChange} />
+      <EffectsQuickActions 
+        settings={settings}
+        onSettingChange={onSettingChange}
+      />
+      <EffectsPresets 
+        settings={settings}
+        onSettingChange={onSettingChange}
+      />
+      <EffectsControls 
+        settings={settings}
+        onSettingChange={onSettingChange}
+      />
     </div>
   );
 }
