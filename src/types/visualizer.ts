@@ -10,7 +10,7 @@ export const VisualizerSettingsSchema = z.object({
   sizeX: z.number().min(100).max(2000),
   sizeY: z.number().min(100).max(2000),
   colorScheme: z.enum(['default', 'neon', 'sunset', 'rainbow', 'monochrome', 'gradient', 'glass']),
-  waveType: z.enum(['sine', 'square', 'sawtooth', 'triangle']),
+  waveType: z.enum(['sine', 'square', 'sawtooth', 'triangle']).default('sine'),
   zoomSpeed: z.number().min(0).max(1),
   zoomIntensity: z.number().min(0).max(1),
   bassResponse: z.number().min(0).max(1),
