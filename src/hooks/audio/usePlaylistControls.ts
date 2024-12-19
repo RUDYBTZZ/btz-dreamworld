@@ -1,15 +1,15 @@
 import { useToast } from "@/hooks/use-toast";
 
 export const usePlaylistControls = (
-  setIsShuffle: (shuffle: boolean) => void,
-  setIsRepeat: (repeat: boolean) => void,
+  setIsShuffle: React.Dispatch<React.SetStateAction<boolean>>,
+  setIsRepeat: React.Dispatch<React.SetStateAction<boolean>>,
   playlist: string[],
   setPlaylist: (playlist: string[]) => void
 ) => {
   const { toast } = useToast();
 
   const toggleShuffle = () => {
-    setIsShuffle(prev => {
+    setIsShuffle((prev: boolean) => {
       const newState = !prev;
       toast({
         title: newState ? "Shuffle enabled" : "Shuffle disabled",
@@ -20,7 +20,7 @@ export const usePlaylistControls = (
   };
 
   const toggleRepeat = () => {
-    setIsRepeat(prev => {
+    setIsRepeat((prev: boolean) => {
       const newState = !prev;
       toast({
         title: newState ? "Repeat enabled" : "Repeat disabled",
