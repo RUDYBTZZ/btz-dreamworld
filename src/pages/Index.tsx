@@ -28,7 +28,6 @@ const Index = () => {
     textAlignment: 'center',
     shapeRotation: true,
     shapeColor: '#ffffff',
-    // New properties initialization
     backgroundColor: '#000000',
     backgroundOpacity: 1,
     backgroundPosX: 0,
