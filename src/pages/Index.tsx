@@ -58,6 +58,7 @@ const Index = () => {
     // Shape properties
     shape3DType: 'grid',
     shapeRotation: true,
+    morphSpeed: 0.5,
     
     // Effect timings
     snareAttackTime: 5,
@@ -72,7 +73,22 @@ const Index = () => {
     enableHighpass: true,
     lowpassFreq: 20,
     highpassFreq: 410,
-    smoothingTimeConstant: 0.1
+    smoothingTimeConstant: 0.1,
+    
+    // New advanced features
+    particleBurstIntensity: 0.5,
+    galaxySwirl: false,
+    galaxySwirlSpeed: 0.5,
+    fluidSimulation: false,
+    fluidViscosity: 0.5,
+    fractalDepth: 3,
+    fractalScale: 1.5,
+    shaderType: 'none',
+    bloomStrength: 1.5,
+    bloomRadius: 0.75,
+    enableVR: false,
+    sceneMode: 'cosmic',
+    aiMoodDetection: false
   });
 
   useEffect(() => {

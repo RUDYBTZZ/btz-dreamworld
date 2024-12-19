@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 
 export interface VisualizerSettings {
-  // Required base properties
+  // Base properties
   intensity: number;
   speed: number;
   glitchAmount: number;
@@ -50,6 +50,7 @@ export interface VisualizerSettings {
   // Shape properties
   shape3DType: 'grid' | 'cube' | 'sphere' | 'ring';
   shapeRotation: boolean;
+  morphSpeed: number;
   
   // Effect timings
   snareAttackTime: number;
@@ -65,6 +66,21 @@ export interface VisualizerSettings {
   lowpassFreq: number;
   highpassFreq: number;
   smoothingTimeConstant: number;
+  
+  // New properties for advanced features
+  particleBurstIntensity: number;
+  galaxySwirl: boolean;
+  galaxySwirlSpeed: number;
+  fluidSimulation: boolean;
+  fluidViscosity: number;
+  fractalDepth: number;
+  fractalScale: number;
+  shaderType: 'ripple' | 'distortion' | 'displacement' | 'none';
+  bloomStrength: number;
+  bloomRadius: number;
+  enableVR: boolean;
+  sceneMode: 'cosmic' | 'minimalist' | 'abstract';
+  aiMoodDetection: boolean;
 }
 
 export interface VisualizerProps {
