@@ -6,6 +6,7 @@ export interface VisualizerSettings {
   sizeX: number;
   sizeY: number;
   colorScheme: string;
+  waveType: 'sine' | 'square' | 'sawtooth' | 'triangle';
   zoomSpeed: number;
   zoomIntensity: number;
   bassResponse: number;
@@ -17,5 +18,22 @@ export interface VisualizerSettings {
   textAlignment: 'left' | 'center' | 'right';
   shapeRotation: boolean;
   shapeColor: string;
-  waveType: 'sine' | 'square' | 'sawtooth' | 'triangle';
+  // New properties from the UI
+  backgroundColor: string;
+  backgroundOpacity: number;
+  backgroundPosX: number;
+  backgroundPosY: number;
+  backgroundScaleX: number;
+  backgroundScaleY: number;
+  imageBorderRadius: number;
+  enableLowpass: boolean;
+  enableHighpass: boolean;
+  lowpassFreq: number;
+  highpassFreq: number;
+  smoothingTimeConstant: number;
+  shape3DType: '3dtext' | 'cube' | 'sphere' | 'ring';
+  textContent: string;
+  textColor: string;
+  bassResponseIntensity: number;
+  animationSpeed: number;
 }

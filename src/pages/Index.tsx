@@ -16,6 +16,7 @@ const Index = () => {
     sizeX: 500,
     sizeY: 500,
     colorScheme: 'default',
+    waveType: 'sine',
     zoomSpeed: 0.5,
     zoomIntensity: 0.3,
     bassResponse: 0.5,
@@ -27,7 +28,24 @@ const Index = () => {
     textAlignment: 'center',
     shapeRotation: true,
     shapeColor: '#ffffff',
-    waveType: 'sine'
+    // New properties initialization
+    backgroundColor: '#000000',
+    backgroundOpacity: 1,
+    backgroundPosX: 0,
+    backgroundPosY: 0,
+    backgroundScaleX: 1,
+    backgroundScaleY: 1,
+    imageBorderRadius: 30,
+    enableLowpass: true,
+    enableHighpass: true,
+    lowpassFreq: 20,
+    highpassFreq: 410,
+    smoothingTimeConstant: 0.1,
+    shape3DType: 'cube',
+    textContent: '3D TEXT',
+    textColor: '#9f7aea',
+    bassResponseIntensity: 0.5,
+    animationSpeed: 0.5
   });
 
   useEffect(() => {
