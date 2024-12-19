@@ -48,7 +48,7 @@ export interface VisualizerSettings {
   textColor: string;
   
   // Shape properties
-  shape3DType: 'cube' | 'sphere' | 'ring' | 'grid' | '3dtext';
+  shape3DType: 'grid' | 'cube' | 'sphere' | 'ring';
   shapeRotation: boolean;
   
   // Effect timings
