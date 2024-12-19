@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useCallback } from 'react';
+import React, { useEffect, useRef, useCallback, useMemo } from 'react';
 import * as THREE from 'three';
 import { useToast } from "@/hooks/use-toast";
 import DefaultVisualizer from './visualizers/DefaultVisualizer';
@@ -28,6 +28,7 @@ const AudioVisualizer = React.memo(({ audioContext, audioSource, settings }: Aud
   const frameIdRef = useRef<number>();
   const { toast } = useToast();
 
+  // Memoize visualizer creation function
   const createVisualizer = useCallback((
     analyser: AnalyserNode,
     settings: VisualizerSettings,
@@ -53,6 +54,28 @@ const AudioVisualizer = React.memo(({ audioContext, audioSource, settings }: Aud
     }
   }, []);
 
+  // Memoize animation function
+  const createAnimationLoop = useCallback((
+    visualizer: VisualizerComponent,
+    renderer: THREE.WebGLRenderer,
+    scene: THREE.Scene,
+    camera: THREE.PerspectiveCamera
+  ) => {
+    return () => {
+      frameIdRef.current = requestAnimationFrame(createAnimationLoop(visualizer, renderer, scene, camera));
+      
+      visualizer.update();
+
+      if (settings.glitchAmount > 0) {
+        const glitchScale = Math.random() * settings.glitchAmount * 0.1;
+        visualizer.mesh.position.x = (Math.random() - 0.5) * glitchScale;
+        visualizer.mesh.position.y = (Math.random() - 0.5) * glitchScale;
+      }
+
+      renderer.render(scene, camera);
+    };
+  }, [settings.glitchAmount]);
+
   useEffect(() => {
     if (!containerRef.current || !audioContext || !audioSource) return;
 
@@ -73,28 +96,38 @@ const AudioVisualizer = React.memo(({ audioContext, audioSource, settings }: Aud
     const handleResize = createResizeHandler(camera, renderer);
     window.addEventListener('resize', handleResize);
 
-    const animate = () => {
-      frameIdRef.current = requestAnimationFrame(animate);
-      
-      visualizer.update();
-
-      if (settings.glitchAmount > 0) {
-        const glitchScale = Math.random() * settings.glitchAmount * 0.1;
-        visualizer.mesh.position.x = (Math.random() - 0.5) * glitchScale;
-        visualizer.mesh.position.y = (Math.random() - 0.5) * glitchScale;
-      }
-
-      renderer.render(scene, camera);
-    };
-
+    // Use memoized animation loop
+    const animate = createAnimationLoop(visualizer, renderer, scene, camera);
     animate();
 
     return () => {
+      console.log("Cleaning up visualizer");
       window.removeEventListener('resize', handleResize);
-      cancelAnimationFrame(frameIdRef.current!);
+      if (frameIdRef.current) {
+        cancelAnimationFrame(frameIdRef.current);
+      }
       cleanupVisualizer(containerRef, rendererRef.current, sceneRef.current, visualizer.mesh);
+      
+      // Additional cleanup
+      if (analyser) {
+        analyser.disconnect();
+      }
+      
+      // Dispose of Three.js resources
+      if (visualizer.mesh instanceof THREE.Mesh) {
+        if (visualizer.mesh.geometry) {
+          visualizer.mesh.geometry.dispose();
+        }
+        if (visualizer.mesh.material) {
+          if (Array.isArray(visualizer.mesh.material)) {
+            visualizer.mesh.material.forEach(material => material.dispose());
+          } else {
+            visualizer.mesh.material.dispose();
+          }
+        }
+      }
     };
-  }, [audioContext, audioSource, settings, createVisualizer]);
+  }, [audioContext, audioSource, settings, createVisualizer, createAnimationLoop]);
 
   return <div ref={containerRef} className="visualizer-container" />;
 });

@@ -1,18 +1,21 @@
 import * as THREE from 'three';
+import { useMemo } from 'react';
 import { VisualizerProps } from './types';
 
 const RippleVisualizer = ({ analyser, settings, dataArray }: VisualizerProps) => {
   console.log("Initializing Ripple visualizer with settings:", settings);
 
-  // Create ripple plane
-  const geometry = new THREE.PlaneGeometry(4, 4, 64, 64);
-  const material = new THREE.MeshPhongMaterial({
+  // Memoize geometry creation
+  const geometry = useMemo(() => new THREE.PlaneGeometry(4, 4, 64, 64), []);
+  
+  // Memoize material creation
+  const material = useMemo(() => new THREE.MeshPhongMaterial({
     color: 0x9b87f5,
     wireframe: true,
     transparent: true,
     opacity: 0.8,
     side: THREE.DoubleSide
-  });
+  }), []);
 
   const rippleMesh = new THREE.Mesh(geometry, material);
   rippleMesh.rotation.x = -Math.PI / 2;
@@ -31,7 +34,6 @@ const RippleVisualizer = ({ analyser, settings, dataArray }: VisualizerProps) =>
       const z = positions[i + 2];
       const distance = Math.sqrt(x * x + z * z);
       
-      // Create ripple effect
       positions[i + 1] = Math.sin(distance * 2 - phase) * 
                         (0.2 + bassValue * 0.3) * 
                         Math.exp(-distance * 0.5);
