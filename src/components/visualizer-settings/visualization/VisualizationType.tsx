@@ -8,7 +8,8 @@ import {
   Box, 
   Sparkles, 
   Zap, 
-  Droplets 
+  Droplets,
+  Grid 
 } from "lucide-react";
 import type { VisualizerSettings } from "@/types/visualizer";
 import { handleSettingChange } from "@/utils/visualizer-settings";
@@ -25,6 +26,12 @@ const visualizationTypes = [
     label: "Default Bars",
     description: "Classic audio bars that react to sound frequencies",
     icon: BarChart3
+  },
+  {
+    value: "pattern",
+    label: "Pattern Grid",
+    description: "Immersive grid of cubes that dance to the bass",
+    icon: Grid
   },
   {
     value: "circular",

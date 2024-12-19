@@ -5,7 +5,7 @@ export const VisualizerSettingsSchema = z.object({
   intensity: z.number().min(0).max(1),
   speed: z.number().min(0).max(1),
   glitchAmount: z.number().min(0).max(1),
-  barType: z.enum(['default', 'circular', 'wave', 'blocks', 'particles', 'particleBurst', 'ripple']),
+  barType: z.enum(['default', 'circular', 'wave', 'blocks', 'particles', 'particleBurst', 'ripple', 'pattern']),
   sizeX: z.number().min(100).max(2000),
   sizeY: z.number().min(100).max(2000),
   colorScheme: z.enum(['default', 'neon', 'sunset', 'rainbow', 'monochrome', 'gradient', 'glass']),

@@ -8,6 +8,7 @@ import BlocksVisualizer from './visualizers/BlocksVisualizer';
 import ParticlesVisualizer from './visualizers/ParticlesVisualizer';
 import ParticleBurstVisualizer from './visualizers/ParticleBurstVisualizer';
 import RippleVisualizer from './visualizers/RippleVisualizer';
+import PatternVisualizer from './visualizers/PatternVisualizer';
 import { setupScene } from './visualizer/SceneSetup';
 import { setupAnalyzer } from './visualizer/AnalyzerSetup';
 import { createResizeHandler } from './visualizer/ResizeHandler';
@@ -37,6 +38,8 @@ const AudioVisualizer = React.memo(({ audioContext, audioSource, settings }: Aud
     console.log("Creating visualizer with settings:", settings);
     
     switch (settings.barType) {
+      case 'pattern':
+        return PatternVisualizer({ analyser, settings, dataArray });
       case 'circular':
         return CircularVisualizer({ analyser, settings, dataArray });
       case 'wave':
