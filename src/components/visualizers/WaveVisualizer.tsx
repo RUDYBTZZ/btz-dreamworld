@@ -48,9 +48,9 @@ const WaveVisualizer = ({ analyser, settings, dataArray }: VisualizerProps): Vis
     const average = (dataArray.reduce((a, b) => a + b) / dataArray.length) * settings.intensity;
     const time = Date.now() * 0.001;
     
-    // Get the waveform type from settings or default to 'sine'
+    // Use the waveType from settings, defaulting to 'sine' if not specified
     const waveType = settings.waveType || 'sine';
-    const frequency = 2 + settings.speed * 3; // Scale speed to a reasonable frequency range
+    const frequency = 2 + settings.speed * 3;
     const amplitude = 0.5 + average * 0.01;
     
     for (let i = 0; i < positions.count; i++) {
