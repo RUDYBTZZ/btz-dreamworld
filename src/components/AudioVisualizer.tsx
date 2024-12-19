@@ -6,6 +6,8 @@ import CircularVisualizer from './visualizers/CircularVisualizer';
 import WaveVisualizer from './visualizers/WaveVisualizer';
 import BlocksVisualizer from './visualizers/BlocksVisualizer';
 import ParticlesVisualizer from './visualizers/ParticlesVisualizer';
+import ParticleBurstVisualizer from './visualizers/ParticleBurstVisualizer';
+import RippleVisualizer from './visualizers/RippleVisualizer';
 import type { VisualizerSettings, VisualizerComponent } from './visualizers/types';
 
 interface AudioVisualizerProps {
@@ -62,6 +64,12 @@ const AudioVisualizer = ({ audioContext, audioSource, settings }: AudioVisualize
         break;
       case 'particles':
         visualizer = ParticlesVisualizer({ analyser, settings, dataArray });
+        break;
+      case 'particleBurst':
+        visualizer = ParticleBurstVisualizer({ analyser, settings, dataArray });
+        break;
+      case 'ripple':
+        visualizer = RippleVisualizer({ analyser, settings, dataArray });
         break;
       default:
         visualizer = DefaultVisualizer({ analyser, settings, dataArray });

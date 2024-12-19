@@ -96,6 +96,8 @@ const VisualizerControls = ({ settings, onSettingsChange }: VisualizerControlsPr
               <SelectItem value="wave">Wave</SelectItem>
               <SelectItem value="blocks">Blocks</SelectItem>
               <SelectItem value="particles">Particles</SelectItem>
+              <SelectItem value="particleBurst">Particle Burst</SelectItem>
+              <SelectItem value="ripple">Ripple</SelectItem>
             </SelectContent>
           </Select>
         </div>
