@@ -2,7 +2,7 @@ import React, { useRef, useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
 import { useToast } from "@/hooks/use-toast";
-import { Play, Pause, Upload } from "lucide-react";
+import { Play, Pause, Upload, Volume2, VolumeX } from "lucide-react";
 
 interface AudioControlsProps {
   onAudioLoad: (audioElement: HTMLAudioElement) => void;
@@ -11,6 +11,8 @@ interface AudioControlsProps {
 const AudioControls = ({ onAudioLoad }: AudioControlsProps) => {
   const [isDragging, setIsDragging] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
+  const [isMuted, setIsMuted] = useState(false);
+  const [volume, setVolume] = useState(100);
   const audioRef = useRef<HTMLAudioElement>(null);
   const { toast } = useToast();
 
@@ -64,6 +66,33 @@ const AudioControls = ({ onAudioLoad }: AudioControlsProps) => {
     }
   };
 
+  const toggleMute = () => {
+    if (!audioRef.current) return;
+    
+    const newMutedState = !isMuted;
+    audioRef.current.muted = newMutedState;
+    setIsMuted(newMutedState);
+    
+    if (newMutedState) {
+      audioRef.current.volume = 0;
+    } else {
+      audioRef.current.volume = volume / 100;
+    }
+  };
+
+  const handleVolumeChange = (value: number[]) => {
+    const newVolume = value[0];
+    setVolume(newVolume);
+    if (audioRef.current) {
+      audioRef.current.volume = newVolume / 100;
+      if (newVolume === 0) {
+        setIsMuted(true);
+      } else if (isMuted) {
+        setIsMuted(false);
+      }
+    }
+  };
+
   return (
     <div className="controls-panel">
       <div
@@ -92,20 +121,27 @@ const AudioControls = ({ onAudioLoad }: AudioControlsProps) => {
           size="icon"
           onClick={togglePlayPause}
           disabled={!audioRef.current?.src}
+          className="transition-transform hover:scale-105"
         >
           {isPlaying ? <Pause className="h-4 w-4" /> : <Play className="h-4 w-4" />}
         </Button>
         
+        <Button
+          variant="outline"
+          size="icon"
+          onClick={toggleMute}
+          disabled={!audioRef.current?.src}
+          className="transition-transform hover:scale-105"
+        >
+          {isMuted ? <VolumeX className="h-4 w-4" /> : <Volume2 className="h-4 w-4" />}
+        </Button>
+        
         <Slider
-          defaultValue={[100]}
+          defaultValue={[volume]}
           max={100}
           step={1}
           className="w-full"
-          onValueChange={(value) => {
-            if (audioRef.current) {
-              audioRef.current.volume = value[0] / 100;
-            }
-          }}
+          onValueChange={handleVolumeChange}
         />
       </div>
 
