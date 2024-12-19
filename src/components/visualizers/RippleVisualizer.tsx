@@ -41,6 +41,12 @@ const RippleVisualizer = ({ analyser, settings, dataArray }: VisualizerProps): V
 
     geometry.attributes.position.needsUpdate = true;
     rippleMesh.rotation.z += 0.005 * settings.speed;
+
+    if (settings.glitchAmount > 0) {
+      const glitchScale = Math.random() * settings.glitchAmount * 0.1;
+      rippleMesh.position.x += (Math.random() - 0.5) * glitchScale;
+      rippleMesh.position.y += (Math.random() - 0.5) * glitchScale;
+    }
   };
 
   return { mesh: rippleMesh, update };
