@@ -13,6 +13,7 @@ const AudioControls = ({ onAudioLoad }: AudioControlsProps) => {
     isPlaying,
     isMuted,
     volume,
+    progress,
     hasAudio,
     handleAudioLoad,
     togglePlayPause,
@@ -31,6 +32,7 @@ const AudioControls = ({ onAudioLoad }: AudioControlsProps) => {
           isPlaying={isPlaying}
           isMuted={isMuted}
           volume={volume}
+          progress={progress}
           onPlayPause={togglePlayPause}
           onMuteToggle={toggleMute}
           onVolumeChange={handleVolumeChange}
