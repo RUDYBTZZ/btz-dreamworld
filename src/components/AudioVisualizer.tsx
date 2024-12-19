@@ -12,6 +12,7 @@ import { setupScene } from './visualizer/SceneSetup';
 import { setupAnalyzer } from './visualizer/AnalyzerSetup';
 import { createResizeHandler } from './visualizer/ResizeHandler';
 import { cleanupVisualizer } from './visualizer/CleanupUtils';
+import ErrorBoundary from './ErrorBoundary';
 import type { VisualizerSettings, VisualizerComponent } from './visualizers/types';
 
 interface AudioVisualizerProps {
@@ -109,22 +110,17 @@ const AudioVisualizer = React.memo(({ audioContext, audioSource, settings }: Aud
         analyser.disconnect();
       }
       
-      if (visualizer.mesh instanceof THREE.Mesh) {
-        if (visualizer.mesh.geometry) {
-          visualizer.mesh.geometry.dispose();
-        }
-        if (visualizer.mesh.material) {
-          if (Array.isArray(visualizer.mesh.material)) {
-            visualizer.mesh.material.forEach(material => material.dispose());
-          } else {
-            visualizer.mesh.material.dispose();
-          }
-        }
+      if (visualizer.cleanup) {
+        visualizer.cleanup();
       }
     };
   }, [audioContext, audioSource, settings, createVisualizer, createAnimationLoop]);
 
-  return <div ref={containerRef} className="visualizer-container" />;
+  return (
+    <ErrorBoundary>
+      <div ref={containerRef} className="visualizer-container" />
+    </ErrorBoundary>
+  );
 });
 
 AudioVisualizer.displayName = 'AudioVisualizer';
