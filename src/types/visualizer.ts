@@ -1,7 +1,6 @@
 import * as THREE from 'three';
 import { z } from 'zod';
 
-// Zod schema for runtime validation
 export const VisualizerSettingsSchema = z.object({
   intensity: z.number().min(0).max(1),
   speed: z.number().min(0).max(1),
