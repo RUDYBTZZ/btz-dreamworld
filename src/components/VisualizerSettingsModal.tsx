@@ -11,6 +11,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import type { VisualizerSettings } from "@/types/visualizer";
 import { VisualizationTabContent } from "./visualizer-settings/VisualizationTabContent";
 import { ColorsTabContent } from "./visualizer-settings/ColorsTabContent";
+import { BackgroundTabContent } from "./visualizer-settings/BackgroundTabContent";
 import { EffectsTabContent } from "./visualizer-settings/EffectsTabContent";
 import { ExportTabContent } from "./visualizer-settings/ExportTabContent";
 
@@ -88,6 +89,13 @@ export function VisualizerSettingsModal({
             <ColorsTabContent 
               settings={settings}
               onSettingChange={handleSettingChange}
+              background={background}
+              onBackgroundChange={onBackgroundChange}
+            />
+          </TabsContent>
+
+          <TabsContent value="background" className="space-y-4">
+            <BackgroundTabContent 
               background={background}
               onBackgroundChange={onBackgroundChange}
             />

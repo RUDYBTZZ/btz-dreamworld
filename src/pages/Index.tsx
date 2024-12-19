@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import AudioVisualizer from "@/components/AudioVisualizer";
 import AudioControls from "@/components/AudioControls";
 import { VisualizerSettingsModal } from "@/components/VisualizerSettingsModal";
-import BackgroundControls from "@/components/BackgroundControls";
 import type { VisualizerSettings } from "@/types/visualizer";
 
 const Index = () => {
@@ -74,8 +73,6 @@ const Index = () => {
         background={background}
         onBackgroundChange={setBackground}
       />
-      
-      <BackgroundControls onBackgroundChange={setBackground} />
       
       <main className="flex-1 w-full flex flex-col items-center justify-center relative">
         <div className="absolute inset-0 z-0">

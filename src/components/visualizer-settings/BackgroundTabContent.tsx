@@ -2,12 +2,7 @@ import { useState } from "react";
 import { Palette, Image, Upload, Sparkles } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useToast } from "@/hooks/use-toast";
-import {
-  Tabs,
-  TabsContent,
-  TabsList,
-  TabsTrigger,
-} from "@/components/ui/tabs";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import type { BackgroundType } from "@/types/background";
 
 const PRESET_GRADIENTS = [
@@ -40,11 +35,12 @@ const BACKGROUND_TYPES: { label: string; value: BackgroundType }[] = [
   { label: "Swarm", value: "swarm" },
 ];
 
-interface BackgroundControlsProps {
+interface BackgroundTabContentProps {
+  background: string;
   onBackgroundChange: (background: string) => void;
 }
 
-const BackgroundControls = ({ onBackgroundChange }: BackgroundControlsProps) => {
+export function BackgroundTabContent({ background, onBackgroundChange }: BackgroundTabContentProps) {
   const [activeTab, setActiveTab] = useState("color");
   const [selectedColor, setSelectedColor] = useState("#9f7aea");
   const { toast } = useToast();
@@ -85,7 +81,6 @@ const BackgroundControls = ({ onBackgroundChange }: BackgroundControlsProps) => 
 
   const handleBackgroundTypeSelect = (type: BackgroundType) => {
     console.log("Selected background type:", type);
-    // For now, we'll use placeholder backgrounds
     const placeholderBackgrounds: Record<BackgroundType, string> = {
       color: selectedColor,
       image: "url(https://images.unsplash.com/photo-1518770660439-4636190af475)",
@@ -113,8 +108,8 @@ const BackgroundControls = ({ onBackgroundChange }: BackgroundControlsProps) => 
   };
 
   return (
-    <div className="fixed top-4 right-4 z-50">
-      <Tabs value={activeTab} onValueChange={setActiveTab} className="glass-panel p-4">
+    <div className="space-y-4">
+      <Tabs value={activeTab} onValueChange={setActiveTab}>
         <TabsList className="grid w-full grid-cols-4 gap-2">
           <TabsTrigger value="color" className="flex items-center gap-2">
             <Palette className="w-4 h-4" />
@@ -134,7 +129,7 @@ const BackgroundControls = ({ onBackgroundChange }: BackgroundControlsProps) => 
           </TabsTrigger>
         </TabsList>
 
-        <TabsContent value="color" className="mt-4">
+        <TabsContent value="color">
           <input
             type="color"
             value={selectedColor}
@@ -143,7 +138,7 @@ const BackgroundControls = ({ onBackgroundChange }: BackgroundControlsProps) => 
           />
         </TabsContent>
 
-        <TabsContent value="gradient" className="mt-4">
+        <TabsContent value="gradient">
           <div className="grid grid-cols-2 gap-2">
             {PRESET_GRADIENTS.map((gradient, index) => (
               <button
@@ -159,8 +154,8 @@ const BackgroundControls = ({ onBackgroundChange }: BackgroundControlsProps) => 
           </div>
         </TabsContent>
 
-        <TabsContent value="image" className="mt-4">
-          <label className="upload-zone flex flex-col items-center justify-center gap-2 p-4 border-2 border-dashed border-white/20 rounded cursor-pointer">
+        <TabsContent value="image">
+          <label className="flex flex-col items-center justify-center gap-2 p-4 border-2 border-dashed border-white/20 rounded cursor-pointer">
             <Upload className="w-6 h-6" />
             <span>Upload Image</span>
             <input
@@ -172,7 +167,7 @@ const BackgroundControls = ({ onBackgroundChange }: BackgroundControlsProps) => 
           </label>
         </TabsContent>
 
-        <TabsContent value="effects" className="mt-4">
+        <TabsContent value="effects">
           <div className="grid grid-cols-2 gap-2 max-h-[400px] overflow-y-auto">
             {BACKGROUND_TYPES.map((type) => (
               <button
@@ -188,6 +183,4 @@ const BackgroundControls = ({ onBackgroundChange }: BackgroundControlsProps) => 
       </Tabs>
     </div>
   );
-};
-
-export default BackgroundControls;
+}
