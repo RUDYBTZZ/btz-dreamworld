@@ -6,7 +6,7 @@ export const cleanupVisualizer = (
   scene: THREE.Scene | null,
   visualizerMesh: THREE.Object3D | null
 ) => {
-  console.log("Cleaning up visualizer");
+  console.log("Cleaning up visualizer resources");
   
   if (containerRef.current && renderer) {
     containerRef.current.removeChild(renderer.domElement);
@@ -15,26 +15,51 @@ export const cleanupVisualizer = (
   if (scene && visualizerMesh) {
     scene.remove(visualizerMesh);
     
-    if (visualizerMesh instanceof THREE.Group) {
-      visualizerMesh.children.forEach(child => {
-        if (child instanceof THREE.Mesh) {
-          child.geometry.dispose();
-          if (Array.isArray(child.material)) {
-            child.material.forEach(material => material.dispose());
+    const disposeObject = (obj: THREE.Object3D) => {
+      if (obj instanceof THREE.Mesh) {
+        if (obj.geometry) {
+          console.log("Disposing geometry");
+          obj.geometry.dispose();
+        }
+        
+        if (obj.material) {
+          console.log("Disposing material(s)");
+          if (Array.isArray(obj.material)) {
+            obj.material.forEach(material => {
+              material.dispose();
+              if (material.map) material.map.dispose();
+              if (material.lightMap) material.lightMap.dispose();
+              if (material.bumpMap) material.bumpMap.dispose();
+              if (material.normalMap) material.normalMap.dispose();
+              if (material.specularMap) material.specularMap.dispose();
+              if (material.envMap) material.envMap.dispose();
+            });
           } else {
-            child.material.dispose();
+            obj.material.dispose();
+            if (obj.material.map) obj.material.map.dispose();
+            if (obj.material.lightMap) obj.material.lightMap.dispose();
+            if (obj.material.bumpMap) obj.material.bumpMap.dispose();
+            if (obj.material.normalMap) obj.material.normalMap.dispose();
+            if (obj.material.specularMap) obj.material.specularMap.dispose();
+            if (obj.material.envMap) obj.material.envMap.dispose();
           }
         }
-      });
-    } else if (visualizerMesh instanceof THREE.Mesh) {
-      visualizerMesh.geometry.dispose();
-      if (Array.isArray(visualizerMesh.material)) {
-        visualizerMesh.material.forEach(material => material.dispose());
-      } else {
-        visualizerMesh.material.dispose();
       }
-    }
+    };
+
+    // Recursively dispose of all objects in the scene
+    visualizerMesh.traverse(disposeObject);
   }
   
-  renderer?.dispose();
+  if (renderer) {
+    console.log("Disposing renderer");
+    renderer.dispose();
+    renderer.forceContextLoss();
+    renderer.domElement = null as any;
+  }
+
+  if (scene) {
+    console.log("Clearing scene");
+    scene.clear();
+  }
 };

@@ -1,14 +1,20 @@
 import * as THREE from 'three';
+import React, { useMemo } from 'react';
 import { VisualizerProps } from './types';
 
-const DefaultVisualizer = ({ analyser, settings, dataArray }: VisualizerProps) => {
-  const geometry = new THREE.BoxGeometry(1, 1, 1);
-  const material = new THREE.MeshPhongMaterial({ 
-    color: 0x9b87f5,
-    specular: 0x9b87f5,
-    shininess: 100,
-  });
-  const visualizer = new THREE.Mesh(geometry, material);
+const DefaultVisualizer = React.memo(({ analyser, settings, dataArray }: VisualizerProps) => {
+  console.log("Initializing Default visualizer with settings:", settings);
+
+  const { geometry, material, visualizer } = useMemo(() => {
+    const geometry = new THREE.BoxGeometry(1, 1, 1);
+    const material = new THREE.MeshPhongMaterial({ 
+      color: 0x9b87f5,
+      specular: 0x9b87f5,
+      shininess: 100,
+    });
+    const visualizer = new THREE.Mesh(geometry, material);
+    return { geometry, material, visualizer };
+  }, []);
 
   const update = () => {
     analyser.getByteFrequencyData(dataArray);
@@ -23,6 +29,8 @@ const DefaultVisualizer = ({ analyser, settings, dataArray }: VisualizerProps) =
   };
 
   return { mesh: visualizer, update };
-};
+});
+
+DefaultVisualizer.displayName = 'DefaultVisualizer';
 
 export default DefaultVisualizer;
