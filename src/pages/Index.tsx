@@ -3,6 +3,7 @@ import AudioVisualizer from "@/components/AudioVisualizer";
 import AudioControls from "@/components/AudioControls";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/AppSidebar";
+import { VisualizerSettingsModal } from "@/components/VisualizerSettingsModal";
 
 const Index = () => {
   const [audioContext, setAudioContext] = useState<AudioContext | null>(null);
@@ -12,7 +13,12 @@ const Index = () => {
     intensity: 0.5,
     speed: 0.5,
     glitchAmount: 0,
-    barType: 'default'
+    barType: 'default',
+    sizeX: 500,
+    sizeY: 500,
+    colorScheme: 'default',
+    zoomSpeed: 0.5,
+    zoomIntensity: 0.3
   });
 
   console.log("Rendering Index with settings:", visualizerSettings);
@@ -51,6 +57,13 @@ const Index = () => {
           backgroundPosition: 'center'
         }}
       >
+        <VisualizerSettingsModal 
+          settings={visualizerSettings}
+          onSettingsChange={setVisualizerSettings}
+          background={background}
+          onBackgroundChange={setBackground}
+        />
+        
         <AppSidebar 
           settings={visualizerSettings}
           onSettingsChange={setVisualizerSettings}
