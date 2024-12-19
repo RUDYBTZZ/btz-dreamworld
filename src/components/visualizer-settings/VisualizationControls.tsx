@@ -15,7 +15,7 @@ export function VisualizationControls({ settings, onSettingChange }: Visualizati
   const { toast } = useToast();
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4">
       <div className="space-y-2">
         <label className="text-sm font-medium">Visualization Type</label>
         <Select
@@ -46,44 +46,14 @@ export function VisualizationControls({ settings, onSettingChange }: Visualizati
       <div className="space-y-4">
         <div className="space-y-2">
           <div className="flex items-center justify-between">
-            <label className="text-sm font-medium">Bass Response</label>
-            <span className="text-xs text-muted-foreground">{settings.bassResponse.toFixed(2)}</span>
+            <label className="text-sm font-medium">Size X (px)</label>
+            <span className="text-xs text-muted-foreground">{settings.sizeX}px</span>
           </div>
           <Slider
-            value={[settings.bassResponse]}
-            onValueChange={([value]) => handleSettingChange("bassResponse", value, settings, onSettingChange)}
-            min={0}
-            max={1}
-            step={0.01}
-            className="py-2"
-          />
-        </div>
-
-        <div className="space-y-2">
-          <div className="flex items-center justify-between">
-            <label className="text-sm font-medium">Snare Response</label>
-            <span className="text-xs text-muted-foreground">{settings.snareResponse.toFixed(2)}</span>
-          </div>
-          <Slider
-            value={[settings.snareResponse]}
-            onValueChange={([value]) => handleSettingChange("snareResponse", value, settings, onSettingChange)}
-            min={0}
-            max={1}
-            step={0.01}
-            className="py-2"
-          />
-        </div>
-
-        <div className="space-y-2">
-          <div className="flex items-center justify-between">
-            <label className="text-sm font-medium">Particle Count</label>
-            <span className="text-xs text-muted-foreground">{settings.particleCount}</span>
-          </div>
-          <Slider
-            value={[settings.particleCount]}
-            onValueChange={([value]) => handleSettingChange("particleCount", value, settings, onSettingChange)}
-            min={10}
-            max={1000}
+            value={[settings.sizeX]}
+            onValueChange={([value]) => handleSettingChange("sizeX", value, settings, onSettingChange)}
+            min={100}
+            max={2000}
             step={10}
             className="py-2"
           />
@@ -91,43 +61,17 @@ export function VisualizationControls({ settings, onSettingChange }: Visualizati
 
         <div className="space-y-2">
           <div className="flex items-center justify-between">
-            <label className="text-sm font-medium">Particle Size</label>
-            <span className="text-xs text-muted-foreground">{settings.particleSize}</span>
+            <label className="text-sm font-medium">Size Y (px)</label>
+            <span className="text-xs text-muted-foreground">{settings.sizeY}px</span>
           </div>
           <Slider
-            value={[settings.particleSize]}
-            onValueChange={([value]) => handleSettingChange("particleSize", value, settings, onSettingChange)}
-            min={1}
-            max={10}
-            step={0.5}
+            value={[settings.sizeY]}
+            onValueChange={([value]) => handleSettingChange("sizeY", value, settings, onSettingChange)}
+            min={100}
+            max={2000}
+            step={10}
             className="py-2"
           />
-        </div>
-
-        <div className="flex items-center justify-between">
-          <Label htmlFor="shape-rotation">Shape Rotation</Label>
-          <Switch
-            id="shape-rotation"
-            checked={settings.shapeRotation}
-            onCheckedChange={(checked) => handleSettingChange("shapeRotation", checked, settings, onSettingChange)}
-          />
-        </div>
-
-        <div className="space-y-2">
-          <label className="text-sm font-medium">Text Alignment</label>
-          <Select
-            value={settings.textAlignment}
-            onValueChange={(value: 'left' | 'center' | 'right') => handleSettingChange("textAlignment", value, settings, onSettingChange)}
-          >
-            <SelectTrigger>
-              <SelectValue placeholder="Select text alignment" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="left">Left</SelectItem>
-              <SelectItem value="center">Center</SelectItem>
-              <SelectItem value="right">Right</SelectItem>
-            </SelectContent>
-          </Select>
         </div>
       </div>
     </div>

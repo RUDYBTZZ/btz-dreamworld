@@ -3,9 +3,9 @@ import { toast } from "@/hooks/use-toast";
 
 export const handleSettingChange = (
   key: keyof VisualizerSettings,
-  value: number | string,
+  value: number | string | boolean,
   settings: VisualizerSettings,
-  onSettingChange: (key: keyof VisualizerSettings, value: number | string) => void
+  onSettingChange: (key: keyof VisualizerSettings, value: number | string | boolean) => void
 ) => {
   onSettingChange(key, value);
   toast({
