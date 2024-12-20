@@ -75,7 +75,7 @@ const Index = () => {
     highpassFreq: 410,
     smoothingTimeConstant: 0.1,
     
-    // New advanced features
+    // Advanced features
     particleBurstIntensity: 0.5,
     galaxySwirl: false,
     galaxySwirlSpeed: 0.5,

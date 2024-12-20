@@ -67,7 +67,7 @@ export interface VisualizerSettings {
   highpassFreq: number;
   smoothingTimeConstant: number;
   
-  // New properties for advanced features
+  // Advanced features
   particleBurstIntensity: number;
   galaxySwirl: boolean;
   galaxySwirlSpeed: number;
