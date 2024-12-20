@@ -11,10 +11,7 @@ export interface VisualizerSettings {
   
   // Wave properties
   waveType: 'sine' | 'square' | 'sawtooth' | 'triangle';
-  
-  // Grid and pattern properties
   patternDensity: string;
-  gridSize: number;
   bassResponseIntensity: number;
   
   // Response properties
