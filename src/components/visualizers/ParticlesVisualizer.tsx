@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 import type { VisualizerProps, VisualizerComponent } from './types';
 
-const ParticlesVisualizer: React.FC<VisualizerProps> = ({ analyser, settings, dataArray }) => {
+const ParticlesVisualizer = ({ analyser, settings, dataArray }: VisualizerProps): VisualizerComponent => {
   console.log("Initializing Particles visualizer with settings:", settings);
 
   const particles = new THREE.Group();
@@ -31,12 +31,12 @@ const ParticlesVisualizer: React.FC<VisualizerProps> = ({ analyser, settings, da
     });
   };
 
-  const visualizer: VisualizerComponent = {
-    mesh: particles,
-    update,
+  const cleanup = () => {
+    particleGeometry.dispose();
+    particleMaterial.dispose();
   };
 
-  return visualizer;
+  return { mesh: particles, update, cleanup };
 };
 
 export default ParticlesVisualizer;

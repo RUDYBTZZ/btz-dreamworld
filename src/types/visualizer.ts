@@ -13,7 +13,7 @@ export interface VisualizerSettings {
   waveType: 'sine' | 'square' | 'sawtooth' | 'triangle';
   
   // Grid and pattern properties
-  patternDensity: '8x8' | '16x16' | '24x24' | '32x32';
+  patternDensity: string;
   gridSize: number;
   bassResponseIntensity: number;
   
