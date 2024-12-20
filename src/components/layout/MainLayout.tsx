@@ -1,5 +1,6 @@
 import React from 'react';
 import type { VisualizerSettings } from "@/types/visualizer";
+import { VisualizerSettingsModal } from "@/components/VisualizerSettingsModal";
 
 interface MainLayoutProps {
   background: string;
