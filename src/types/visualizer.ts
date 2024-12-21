@@ -8,13 +8,11 @@ export interface VisualizerSettings {
   barType: string;
   sizeX: number;
   sizeY: number;
-  
-  // Wave properties
-  waveType: 'sine' | 'square' | 'sawtooth' | 'triangle';
   patternDensity: string;
   bassResponseIntensity: number;
   
-  // Response properties
+  // Wave properties
+  waveType: 'sine' | 'square' | 'sawtooth' | 'triangle';
   bassResponse: number;
   snareResponse: number;
   
